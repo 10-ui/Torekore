@@ -3,8 +3,8 @@ import { Button } from 'react-native';
 
 interface ButtonProps {
   title: string;
-  onPress: () => void;
-  disabled: boolean;
+  onPress?: () => void;
+  disabled?: boolean;
 }
 
 const AppButton = ({ title, onPress, disabled }: ButtonProps) => {
