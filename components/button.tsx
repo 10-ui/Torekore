@@ -1,16 +1,26 @@
 import React from 'react';
-import { Button } from 'react-native';
-
-interface ButtonProps {
-  title: string;
-  onPress?: () => void;
-  disabled?: boolean;
+import { docking } from '@/utils/docking';
+import { Text, TouchableOpacity } from 'react-native';
+export interface ButtonProps
+  extends React.ComponentPropsWithoutRef<typeof TouchableOpacity> {
+  label: string;
+  labelClasses?: string;
 }
 
-const AppButton = ({ title, onPress, disabled }: ButtonProps) => {
+const Button = React.forwardRef<
+  React.ElementRef<typeof TouchableOpacity>,
+  ButtonProps
+>(({ label, labelClasses, className, onPress, ...props }, ref) => {
   return (
-    <Button title={title} onPress={onPress} disabled={disabled} />
+    <TouchableOpacity
+      className={docking(className)}
+      onPress={onPress}
+      {...props}>
+      <Text className={docking(labelClasses)}>{label}</Text>
+    </TouchableOpacity>
   );
-};
+});
 
-export default AppButton;
+Button.displayName = 'Button';
+
+export { Button };
