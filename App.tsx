@@ -1,24 +1,79 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  Octicons,
+} from '@expo/vector-icons';
+import Home from '@/screens/home';
+import EditCard from '@/screens/editCard';
+import ShareCard from '@/screens/shareCard';
+import AllCards from '@/screens/allCards';
 import '@/styles/global.css';
-import { Button } from '@/components/button';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View className='flex-1 items-center justify-center bg-white'>
-      <Button
-        label='Button'
-        onPress={() => console.log('Button pressed')}
-      />
-      <Button
-        label='Button'
-        onPress={() => console.log('Button pressed')}
-      />
-      <Image source={require('@/assets/logos/google.svg')} />
-      <Text>Googleでログイン</Text>
-      <Image source={require('@/assets/logos/X.svg')} />
-      <Text>Xでログイン</Text>
-      <StatusBar style='auto' />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator initialRouteName='Home'>
+        <Tab.Screen
+          name='ホーム'
+          component={Home}
+          options={{
+            tabBarLabel: 'ホーム',
+            tabBarIcon: ({ focused }) => (
+              <Ionicons
+                name='home'
+                size={20}
+                color={focused ? 'dodgerblue' : 'gray'}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name='カード編集'
+          component={EditCard}
+          options={{
+            tabBarLabel: 'カード編集',
+            tabBarIcon: ({ focused }) => (
+              <MaterialCommunityIcons
+                name='card-account-details'
+                size={20}
+                color={focused ? 'dodgerblue' : 'gray'}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name='カード交換'
+          component={ShareCard}
+          options={{
+            tabBarLabel: 'カード交換',
+            tabBarIcon: ({ focused }) => (
+              <Octicons
+                name='share'
+                size={20}
+                color={focused ? 'dodgerblue' : 'gray'}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name='カード一覧'
+          component={AllCards}
+          options={{
+            tabBarLabel: 'カード一覧',
+            tabBarIcon: ({ focused }) => (
+              <MaterialCommunityIcons
+                name='cards'
+                size={20}
+                color={focused ? 'dodgerblue' : 'gray'}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
