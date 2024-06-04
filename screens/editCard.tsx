@@ -9,23 +9,25 @@ import {
 export default function EditCard() {
   return (
     <View className='flex-1 items-center justify-center bg-white'>
-      <Tabs defaultValue='account'>
+      <Tabs defaultValue='カード情報'>
         <TabsList>
-          <TabsTrigger id='account' title='Account' value='account' />
           <TabsTrigger
-            id='password'
-            title='Password'
-            value='password'
+            id='カード情報'
+            title='カード情報'
+            value='カード情報'
+          />
+          <TabsTrigger
+            id='カードスタイル'
+            title='カードスタイル'
+            value='カードスタイル'
           />
         </TabsList>
-        <TabsContent value='account'>
-          <Text className='text-primary'>
-            Make changes to your account here.
-          </Text>
+        <TabsContent value='カード情報'>
+          <Text className='text-primary'>カード情報を編集します</Text>
         </TabsContent>
-        <TabsContent value='password'>
+        <TabsContent value='カードスタイル'>
           <Text className='text-primary'>
-            Change your password here.
+            カードスタイルを編集します
           </Text>
         </TabsContent>
       </Tabs>
