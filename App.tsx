@@ -1,4 +1,4 @@
-import Navigations from '@/components/screens/navigations';
+import Navigations from '@/screens/navigations';
 import '@/styles/global.css';
 
 export default function App() {

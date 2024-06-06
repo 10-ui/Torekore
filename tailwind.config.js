@@ -2,9 +2,9 @@
 module.exports = {
   content: [
     'App.tsx',
+    'screens/*.tsx',
     'components/*.tsx',
     'components/**/*.tsx',
-    'components/**/**/*.tsx',
   ],
   presets: [require('nativewind/preset')],
   theme: {
