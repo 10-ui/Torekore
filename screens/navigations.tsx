@@ -5,10 +5,10 @@ import {
   MaterialCommunityIcons,
   Octicons,
 } from '@expo/vector-icons';
-import Home from '@/screens/(Authed)/home';
-import EditCard from '@/screens/(Authed)/editCard';
-import ShareCard from '@/screens/(Authed)/shareCard';
-import AllCards from '@/screens/(Authed)/allCards';
+import Home from '@/screens/_authed/home';
+import EditCard from '@/screens/_authed/editCard';
+import ShareCard from '@/screens/_authed/shareCard';
+import AllCards from '@/screens/_authed/allCards';
 import '@/styles/global.css';
 
 const Tab = createBottomTabNavigator();
