@@ -1,3 +1,5 @@
+import React from 'react';
+import { Audio } from 'expo-av';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -14,6 +16,20 @@ import '@/styles/global.css';
 const Tab = createBottomTabNavigator();
 
 export default function Navigations() {
+  async function playSound() {
+    try {
+      const SObject = new Audio.Sound();
+      await SObject.loadAsync(
+        require('@/assets/music/Syuketsunosonoe.mp3')
+      );
+      await SObject.playAsync();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  React.useEffect(() => {
+    playSound();
+  }, []);
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName='Home'>
