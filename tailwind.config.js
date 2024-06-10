@@ -9,7 +9,12 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      spacing: {
+        13: '3.25rem',
+        15: '3.75rem',
+      },
       colors: {
+        appBlue: 'var(--app-blue)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

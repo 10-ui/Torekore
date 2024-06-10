@@ -4,9 +4,10 @@ import { Button } from '@/components/button';
 
 export default function Home() {
   return (
-    <View className='flex-1 items-center justify-center bg-white'>
+    <View className='flex-1 items-center justify-center bg-white px-13'>
       <Button
         label='Button'
+        variant='outline'
         onPress={() => console.log('Button pressed')}
       />
       <Button
@@ -17,12 +18,12 @@ export default function Home() {
         source={require('@/assets/logos/google.svg')}
         style={{ width: 50, height: 50 }}
       />
-      <Text>Googleでログイン</Text>
+      <Text>Googleで連携</Text>
       <Image
         source={require('@/assets/logos/X.svg')}
         style={{ width: 50, height: 50 }}
       />
-      <Text>Xでログイン</Text>
+      <Text>Xで連携</Text>
     </View>
   );
 }
