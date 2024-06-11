@@ -16,7 +16,8 @@ const Input = React.forwardRef<
     { className, label, labelClasses, inputClasses, ...props },
     ref
   ) => (
-    <View className={docking('flex flex-col gap-1.5', className)}>
+    <View
+      className={docking('w-full flex flex-col gap-1', className)}>
       {label && (
         <Text className={docking('text-base', labelClasses)}>
           {label}
@@ -26,7 +27,7 @@ const Input = React.forwardRef<
         ref={ref}
         className={docking(
           inputClasses,
-          'border border-input py-2.5 px-4 rounded-lg'
+          'w-full flex justify-center items-center border border-input h-12 rounded-lg'
         )}
         {...props}
       />
