@@ -48,10 +48,9 @@ const Button = React.forwardRef<
         onPress={onPress}
         {...props}>
         <Text
-          className={docking(
-            buttonTextVariants({ variant }),
-            labelClasses
-          )}>
+          className={docking(buttonTextVariants({ variant }), {
+            className: labelClasses,
+          })}>
           {label}
         </Text>
       </Pressable>
