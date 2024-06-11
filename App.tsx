@@ -8,8 +8,9 @@ export default function App() {
   const setAuthentication = (state: boolean) => {
     setIsAuthenticated(state);
   };
-  if (!isAuthenticated) {
-    return <Login setAuthentication={setAuthentication} />;
-  }
-  return <Navigations />;
+  return !isAuthenticated ? (
+    <Login setAuthentication={setAuthentication} />
+  ) : (
+    <Navigations />
+  );
 }

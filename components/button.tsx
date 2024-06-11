@@ -35,7 +35,7 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
+  React.ElementRef<typeof TouchableOpacity>,
   ButtonProps
 >(
   (
@@ -46,7 +46,8 @@ const Button = React.forwardRef<
       <Pressable
         className={docking(buttonVariants({ variant }), className)}
         onPress={onPress}
-        {...props}>
+        {...props}
+        ref={ref}>
         <Text
           className={docking(buttonTextVariants({ variant }), {
             className: labelClasses,
