@@ -1,14 +1,14 @@
-import { createContext, useContext, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { createContext, useContext, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 
-import { docking } from '@/utils/docking';
+import { docking } from "@/utils/docking";
 
 interface TabsContextProps {
   activeTab: string;
   setActiveTab: (id: string) => void;
 }
 const TabsContext = createContext<TabsContextProps>({
-  activeTab: '',
+  activeTab: "",
   setActiveTab: () => {},
 });
 
@@ -32,7 +32,7 @@ function TabsList({
 }: React.ComponentPropsWithoutRef<typeof View>) {
   return (
     <View
-      className={docking('flex flex-row justify-center', className)}
+      className={docking("flex flex-row justify-center", className)}
       {...props}
     />
   );
@@ -55,17 +55,17 @@ function TabsTrigger({
 
   return (
     <TouchableOpacity
-      className={docking('px-8 py-3 rounded-md w-1/2 bg-muted', {
-        'bg-foreground': activeTab === value,
+      className={docking("w-1/2 rounded-md bg-muted px-8 py-3", {
+        "bg-foreground": activeTab === value,
         className,
       })}
       onPress={() => setActiveTab(value)}
       {...props}>
       <Text
         className={docking(
-          'font-medium text-center text-muted-foreground',
-          { 'text-background': activeTab === value },
-          textClasses
+          "text-center font-medium text-muted-foreground",
+          { "text-background": activeTab === value },
+          textClasses,
         )}>
         {title}
       </Text>
@@ -73,23 +73,18 @@ function TabsTrigger({
   );
 }
 
-interface TabsContentProps
-  extends React.ComponentPropsWithoutRef<typeof View> {
+interface TabsContentProps extends React.ComponentPropsWithoutRef<typeof View> {
   value: string;
 }
-function TabsContent({
-  value,
-  className,
-  ...props
-}: TabsContentProps) {
+function TabsContent({ value, className, ...props }: TabsContentProps) {
   const { activeTab } = useContext(TabsContext);
 
   if (value === activeTab)
     return (
       <View
         className={docking(
-          'border border-border mt-2 px-4 py-4 rounded-xl',
-          className
+          "mt-2 rounded-xl border border-border px-4 py-4",
+          className,
         )}
         {...props}
       />

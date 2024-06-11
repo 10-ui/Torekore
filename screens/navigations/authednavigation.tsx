@@ -1,15 +1,11 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  Octicons,
-} from '@expo/vector-icons';
-import Home from '@/screens/_authed/home';
-import EditCard from '@/screens/_authed/editCard';
-import ShareCard from '@/screens/_authed/shareCard';
-import AllCards from '@/screens/_authed/allCards';
-import '@/styles/global.css';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import Home from "@/screens/_authed/home";
+import EditCard from "@/screens/_authed/editCard";
+import ShareCard from "@/screens/_authed/shareCard";
+import AllCards from "@/screens/_authed/allCards";
+import "@/styles/global.css";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,12 +17,12 @@ export default function Navigations() {
           name='ホーム'
           component={Home}
           options={{
-            tabBarLabel: 'ホーム',
+            tabBarLabel: "ホーム",
             tabBarIcon: ({ focused }) => (
               <Ionicons
                 name='home'
                 size={20}
-                color={focused ? 'dodgerblue' : 'gray'}
+                color={focused ? "dodgerblue" : "gray"}
               />
             ),
           }}
@@ -35,12 +31,12 @@ export default function Navigations() {
           name='カード編集'
           component={EditCard}
           options={{
-            tabBarLabel: 'カード編集',
+            tabBarLabel: "カード編集",
             tabBarIcon: ({ focused }) => (
               <MaterialCommunityIcons
                 name='card-account-details'
                 size={20}
-                color={focused ? 'dodgerblue' : 'gray'}
+                color={focused ? "dodgerblue" : "gray"}
               />
             ),
           }}
@@ -49,12 +45,12 @@ export default function Navigations() {
           name='カード交換'
           component={ShareCard}
           options={{
-            tabBarLabel: 'カード交換',
+            tabBarLabel: "カード交換",
             tabBarIcon: ({ focused }) => (
               <Octicons
                 name='share'
                 size={20}
-                color={focused ? 'dodgerblue' : 'gray'}
+                color={focused ? "dodgerblue" : "gray"}
               />
             ),
           }}
@@ -63,12 +59,12 @@ export default function Navigations() {
           name='カード一覧'
           component={AllCards}
           options={{
-            tabBarLabel: 'カード一覧',
+            tabBarLabel: "カード一覧",
             tabBarIcon: ({ focused }) => (
               <MaterialCommunityIcons
                 name='cards'
                 size={20}
-                color={focused ? 'dodgerblue' : 'gray'}
+                color={focused ? "dodgerblue" : "gray"}
               />
             ),
           }}
