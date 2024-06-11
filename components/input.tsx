@@ -27,7 +27,7 @@ const Input = React.forwardRef<
         ref={ref}
         className={docking(
           inputClasses,
-          'w-full flex justify-center items-center border border-input h-12 rounded-lg'
+          'w-full px-3 flex justify-center items-center border border-input h-12 rounded-lg text-slate-400'
         )}
         {...props}
       />
