@@ -4,7 +4,9 @@
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "cc": "rm -rf ~/.bun/install/cache/* && rm -rf node_modules",
+    "c": "rm -rf ~/.bun/install/cache/*",
+    "cc": "bun c && rm -rf node_modules",
+    "format": "prettier --write .",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -32,7 +34,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@react-native/eslint-config": "^0.74.84",
     "@types/react": "~18.2.45",
+    "prettier": "^3.3.1",
+    "prettier-plugin-tailwindcss": "^0.6.2",
     "tailwindcss": "^3.4.3",
     "typescript": "~5.3.3"
   },
