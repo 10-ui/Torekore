@@ -1,6 +1,6 @@
 import React from 'react';
-import Navigations from '@/screens/navigations';
-import Login from '@/screens/login';
+import Navigations from '@/screens/navigations/authednavigation';
+import Login from '@/screens/_default/login';
 import '@/styles/global.css';
 
 export default function App() {
