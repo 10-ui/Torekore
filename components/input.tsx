@@ -6,14 +6,13 @@ export interface InputProps
   extends React.ComponentPropsWithoutRef<typeof TextInput> {
   label?: string;
   labelClasses?: string;
-  inputClasses?: string;
 }
 const Input = React.forwardRef<
   React.ElementRef<typeof TextInput>,
   InputProps
 >(
   (
-    { className, label, labelClasses, inputClasses, ...props },
+    { className, label, labelClasses, ...props },
     ref
   ) => (
     <View
@@ -26,8 +25,8 @@ const Input = React.forwardRef<
       <TextInput
         ref={ref}
         className={docking(
-          inputClasses,
-          'w-full px-3 flex justify-center items-center border border-input h-12 rounded-lg text-slate-400'
+          'w-full px-3 flex justify-center items-center border border-input h-12 rounded-lg text-slate-400',
+          className
         )}
         {...props}
       />
