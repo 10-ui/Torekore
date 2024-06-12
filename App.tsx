@@ -1,6 +1,7 @@
 import React from "react";
-import Navigations from "@/screens/navigations/authednavigation";
-import Login from "@/screens/_default/login";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthedNavigation from "@/screens/navigations/authednavigation";
+import DefaultNavigation from "@/screens/navigations/defaultnavigation";
 import "@/styles/global.css";
 
 export default function App() {
@@ -8,9 +9,13 @@ export default function App() {
   const setAuthentication = (state: boolean) => {
     setIsAuthenticated(state);
   };
-  return !isAuthenticated ? (
-    <Login setAuthentication={setAuthentication} />
-  ) : (
-    <Navigations />
+  return (
+    <NavigationContainer>
+      {isAuthenticated ? (
+        <AuthedNavigation />
+      ) : (
+        <DefaultNavigation setAuthentication={setAuthentication} />
+      )}
+    </NavigationContainer>
   );
 }

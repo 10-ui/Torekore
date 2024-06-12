@@ -5,8 +5,10 @@ import { Input } from "@/components/input";
 
 export default function Login({
   setAuthentication,
+  navigation,
 }: {
   setAuthentication: (state: boolean) => void;
+  navigation: any;
 }) {
   return (
     <View className='flex-1 items-center justify-center bg-white px-13'>
@@ -21,7 +23,13 @@ export default function Login({
       <Input label='パスワード' placeholder='パスワードを入力してください' />
       <Button label='ログイン' onPress={() => setAuthentication(true)} />
 
-      <Button label='初めて利用される方はこちら' variant='outline' />
+      <Button
+        label='初めて利用される方はこちら'
+        variant='outline'
+        onPress={() => {
+          navigation.navigate("Signup");
+        }}
+      />
       <Image
         source={require("@/assets/logos/google.svg")}
         style={{ width: 50, height: 50 }}
