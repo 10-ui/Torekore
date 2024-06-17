@@ -8,6 +8,7 @@
     "start": "echo 'You can use \"bun s\" or \"bun sc\" to start the app'",
     "c": "rm -rf ~/.bun/install/cache/*",
     "cc": "bun c && rm -rf node_modules",
+    "cnm": "rm -rf node_modules",
     "format": "prettier --write .",
     "android": "expo start --android",
     "ios": "expo start --ios",
