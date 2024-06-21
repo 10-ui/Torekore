@@ -14,10 +14,11 @@ export default function Login({
     <View className='flex-1 items-center justify-center bg-white px-13'>
       <Image
         source={require("@/assets/logos/applogo.svg")}
-        style={{ width: 100, height: 100 }}
+        style={{ width: 150, height: 45, marginBottom: 20}}
       />
+      
       <Input
-        label='メールアドレス'
+        label='ログインID (メールアドレス)'
         placeholder='メールアドレスを入力してください'
       />
       <Input label='パスワード' placeholder='パスワードを入力してください' />
@@ -32,14 +33,14 @@ export default function Login({
       />
       <Image
         source={require("@/assets/logos/google.svg")}
-        style={{ width: 50, height: 50 }}
+        style={{ width: 280, height: 40}}
       />
-      <Text>Googleで連携</Text>
+     
       <Image
         source={require("@/assets/logos/X.svg")}
-        style={{ width: 50, height: 50 }}
+        style={{ width: 280, height: 50, marginTop: 10}}
       />
-      <Text>イーロンマスクと恋愛</Text>
+      
     </View>
   );
 }
