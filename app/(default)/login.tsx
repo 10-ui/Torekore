@@ -2,14 +2,10 @@ import { Button } from "@/components/button";
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
 import { Input } from "@/components/input";
+import { useRouter } from "expo-router";
 
-export default function Login({
-  setAuthentication,
-  navigation,
-}: {
-  setAuthentication: (state: boolean) => void;
-  navigation: any;
-}) {
+export default function Login() {
+  const router = useRouter();
   return (
     <View className='flex-1 items-center justify-center bg-white px-13'>
       <Image
@@ -22,13 +18,13 @@ export default function Login({
         placeholder='メールアドレスを入力してください'
       />
       <Input label='パスワード' placeholder='パスワードを入力してください' />
-      <Button label='ログイン' onPress={() => setAuthentication(true)} />
+      <Button label='ログイン' onPress={() => {}} />
 
       <Button
         label='初めて利用される方はこちら'
         variant='outline'
         onPress={() => {
-          navigation.navigate("Signup");
+          router.push("/signup");
         }}
       />
       <Image
