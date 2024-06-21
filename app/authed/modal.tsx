@@ -2,6 +2,7 @@ import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { View, Text, Share } from "react-native";
 import { Link } from "expo-router";
 import { Button } from "@/components/button";
+import QRCode from "react-native-qrcode-svg";
 export default function Modal() {
   const shareText = async () => {
     try {
@@ -20,6 +21,7 @@ export default function Modal() {
       <Text className='pt-6 text-center text-3xl font-bold'>
         カードをシェア
       </Text>
+      <QRCode value='https://www.jec.ac.jp' />
       <Button label='カードをシェア' className='mt-6' onPress={shareText} />
     </View>
   );
