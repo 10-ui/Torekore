@@ -1,4 +1,5 @@
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { Tabs } from "expo-router";
 
 export default function AuthedLayout() {
@@ -7,7 +8,17 @@ export default function AuthedLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: "ホーム",
+          headerStyle: {
+            height: 100,
+          },
+          headerTitle: () => {
+            return (
+              <Image
+                source={require("@/assets/logos/applogo.svg")}
+                style={{ width: 100, height: 30 }}
+              />
+            );
+          },
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name='home'

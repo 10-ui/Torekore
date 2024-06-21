@@ -7,13 +7,10 @@ export default function App() {
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
     if (isMounted) {
       router.replace("/login");
     }
   }, [isMounted]);
 
-  return null; // 画面には何も表示しない
+  return null;
 }
