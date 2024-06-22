@@ -39,19 +39,19 @@ const data = [
 export default function Home() {
   return (
     <ScrollView className='bg-white px-4 py-6'>
-      <View className='h-[240px] w-full bg-slate-500'></View>
+      <View className='h-60 w-full bg-slate-500'></View>
       <Button
         label='カードをシェア'
         className='mt-6'
         onPress={() => router.push("/authed/modal")}
       />
-      <View className='mt-6 h-96 w-full rounded-lg bg-appBlue p-4'>
-        <Text className='text-center text-lg text-white'>ミッション</Text>
+      <View className='mt-6 h-96 w-full rounded-lg bg-missionBlue p-5'>
+        <Text className='pb-5 text-center text-lg font-medium'>ミッション</Text>
         <ScrollView>
           {data.map((item) => (
             <View
               key={item.id}
-              className='mt-4 flex flex-row items-center gap-2 bg-white p-2'>
+              className='mb-4 flex flex-row items-center gap-2 bg-white p-2'>
               <Avatar className='h-10 w-10'>
                 <AvatarImage
                   source={{

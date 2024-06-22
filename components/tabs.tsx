@@ -32,7 +32,10 @@ function TabsList({
 }: React.ComponentPropsWithoutRef<typeof View>) {
   return (
     <View
-      className={docking("flex flex-row justify-center", className)}
+      className={docking(
+        "flex w-full flex-row justify-center rounded bg-muted p-1",
+        className,
+      )}
       {...props}
     />
   );
@@ -55,8 +58,8 @@ function TabsTrigger({
 
   return (
     <TouchableOpacity
-      className={docking("w-1/2 rounded-md bg-muted px-8 py-3", {
-        "bg-foreground": activeTab === value,
+      className={docking("w-1/2 rounded bg-muted px-8 py-3", {
+        "bg-appBlue": activeTab === value,
         className,
       })}
       onPress={() => setActiveTab(value)}
@@ -82,10 +85,7 @@ function TabsContent({ value, className, ...props }: TabsContentProps) {
   if (value === activeTab)
     return (
       <View
-        className={docking(
-          "mt-2 rounded-xl border border-border px-4 py-4",
-          className,
-        )}
+        className={docking("mt-4 w-full", className)}
         {...props}
       />
     );

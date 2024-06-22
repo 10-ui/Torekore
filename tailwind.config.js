@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.tsx", "./components/*.tsx"],
+  content: ["./app/**/*.tsx", "./app/**/**/*.tsx", "./components/*.tsx"],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         appBlue: "var(--app-blue)",
+        missionBlue: "var(--mission-blue)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

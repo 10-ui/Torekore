@@ -1,7 +1,7 @@
 import React from "react";
 import { type VariantProps, cva } from "class-variance-authority";
 import { docking } from "@/utils/docking";
-import { Pressable, Text, TouchableOpacity } from "react-native";
+import { Pressable, Text } from "react-native";
 
 const buttonVariants = cva(
   "rounded-md flex items-center justify-center w-full h-15",
@@ -28,14 +28,14 @@ const buttonTextVariants = cva("text-white text-base", {
 });
 
 export interface ButtonProps
-  extends React.ComponentPropsWithoutRef<typeof TouchableOpacity>,
+  extends React.ComponentPropsWithoutRef<typeof Pressable>,
     VariantProps<typeof buttonVariants> {
   label: string;
   labelClasses?: string;
 }
 
 const Button = React.forwardRef<
-  React.ElementRef<typeof TouchableOpacity>,
+  React.ElementRef<typeof Pressable>,
   ButtonProps
 >(({ label, labelClasses, variant, className, onPress, ...props }, ref) => {
   return (
