@@ -1,7 +1,8 @@
 import React from "react";
 import { type VariantProps, cva } from "class-variance-authority";
 import { docking } from "@/utils/docking";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { Image } from "expo-image";
 
 const buttonVariants = cva(
   "rounded-md flex items-center justify-center w-full h-15",
@@ -10,6 +11,8 @@ const buttonVariants = cva(
       variant: {
         default: "bg-appBlue",
         outline: "bg-transparent border border-2 border-appBlue",
+        withicon:
+          "items-start px-20 bg-transparent border border-2 border-appBlue",
       },
     },
     defaultVariants: {
@@ -23,6 +26,7 @@ const buttonTextVariants = cva("text-white text-base", {
     variant: {
       default: "text-white",
       outline: "text-appBlue",
+      withicon: "text-appBlue",
     },
   },
 });
@@ -32,24 +36,36 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   label: string;
   labelClasses?: string;
+  source?: string;
 }
 
 const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ButtonProps
->(({ label, labelClasses, variant, className, onPress, ...props }, ref) => {
+>(({ label, labelClasses, variant, className, source, ...props }, ref) => {
   return (
     <Pressable
       className={docking(buttonVariants({ variant }), className)}
-      onPress={onPress}
       {...props}
       ref={ref}>
-      <Text
-        className={docking(buttonTextVariants({ variant }), {
-          className: labelClasses,
-        })}>
-        {label}
-      </Text>
+      {source ? (
+        <View className='flex flex-row items-center justify-center gap-4'>
+          <Image source={source} style={{ width: 30, height: 30 }} />
+          <Text
+            className={docking(buttonTextVariants({ variant }), {
+              className: labelClasses,
+            })}>
+            {label}
+          </Text>
+        </View>
+      ) : (
+        <Text
+          className={docking(buttonTextVariants({ variant }), {
+            className: labelClasses,
+          })}>
+          {label}
+        </Text>
+      )}
     </Pressable>
   );
 });
