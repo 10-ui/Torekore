@@ -45,28 +45,26 @@ export default function Home() {
         className='mt-6'
         onPress={() => router.push("/authed/modal")}
       />
-      <View className='mt-6 h-96 w-full rounded-lg bg-appLightBlue p-5'>
+      <View className='mt-6 w-full rounded-lg bg-appLightBlue p-5'>
         <Text className='pb-5 text-center text-lg font-medium'>ミッション</Text>
-        <ScrollView>
-          {data.map((item) => (
-            <View
-              key={item.id}
-              className='mb-4 flex flex-row items-center gap-2 bg-white p-2'>
-              <Avatar className='h-10 w-10'>
-                <AvatarImage
-                  source={{
-                    uri: "https://hiyokoyarou.com/wp-content/uploads/2022/04/icon-cat.png",
-                  }}
-                />
-                <AvatarFallback>CG</AvatarFallback>
-              </Avatar>
-              <View>
-                <Text className='text-xl'>{item.title}</Text>
-                <Text className='text-base'>{item.description}</Text>
-              </View>
+        {data.map((item) => (
+          <View
+            key={item.id}
+            className='mb-4 flex flex-row items-center gap-2 bg-white p-2'>
+            <Avatar className='h-10 w-10'>
+              <AvatarImage
+                source={{
+                  uri: "https://hiyokoyarou.com/wp-content/uploads/2022/04/icon-cat.png",
+                }}
+              />
+              <AvatarFallback>CG</AvatarFallback>
+            </Avatar>
+            <View>
+              <Text className='text-xl'>{item.title}</Text>
+              <Text className='text-base'>{item.description}</Text>
             </View>
-          ))}
-        </ScrollView>
+          </View>
+        ))}
       </View>
     </ScrollView>
   );
