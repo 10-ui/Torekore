@@ -69,6 +69,19 @@ export default function AuthedLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name='settings'
+          options={{
+            title: "設定",
+            tabBarIcon: ({ focused }) => (
+              <MaterialCommunityIcons
+                name='cog'
+                size={24}
+                color={focused ? "dodgerblue" : "gray"}
+              />
+            ),
+          }}
+        />
       </Tabs>
     </ActionSheetProvider>
   );
