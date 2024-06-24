@@ -45,7 +45,7 @@ export default function Home() {
         className='mt-6'
         onPress={() => router.push("/authed/modal")}
       />
-      <View className='mt-6 h-96 w-full rounded-lg bg-missionBlue p-5'>
+      <View className='mt-6 h-96 w-full rounded-lg bg-appLightBlue p-5'>
         <Text className='pb-5 text-center text-lg font-medium'>ミッション</Text>
         <ScrollView>
           {data.map((item) => (

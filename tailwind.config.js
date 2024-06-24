@@ -10,7 +10,7 @@ module.exports = {
       },
       colors: {
         appBlue: "var(--app-blue)",
-        missionBlue: "var(--mission-blue)",
+        appLightBlue: "var(--app-light-blue)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
