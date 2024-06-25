@@ -2,7 +2,7 @@ import React from "react";
 import { docking } from "@/utils/docking";
 import { type VariantProps, cva } from "class-variance-authority";
 import { Pressable, Text, View } from "react-native";
-import { Image } from "expo-image";
+import ExpoImage from "@/components/expo-image";
 
 const buttonVariants = cva(
   "rounded-md flex items-center justify-center w-full h-15",
@@ -50,7 +50,7 @@ const Button = React.forwardRef<
       ref={ref}>
       {source ? (
         <View className='flex flex-row items-center justify-center gap-4'>
-          <Image source={source} style={{ width: 30, height: 30 }} />
+          <ExpoImage source={source} className='h-7 w-7' />
           <Text
             className={docking(buttonTextVariants({ variant }), {
               className: labelClasses,
