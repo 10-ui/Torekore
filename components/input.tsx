@@ -2,7 +2,7 @@ import React from "react";
 import { docking } from "@/utils/docking";
 import { type VariantProps, cva } from "class-variance-authority";
 import { Text, TextInput, View } from "react-native";
-import { Image } from "expo-image";
+import ExpoImage from "@/components/expo-image";
 
 const inputVariants = cva(
   "flex h-12 w-full items-center justify-center border border-input p-3 text-slate-400",
@@ -42,15 +42,9 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
           {...props}
         />
         {source && (
-          <Image
+          <ExpoImage
             source={source}
-            style={{
-              width: 20,
-              height: 20,
-              position: "absolute",
-              right: 16,
-              bottom: 12,
-            }}
+            className='absolute bottom-4 right-3 h-5 w-5'
           />
         )}
       </View>
