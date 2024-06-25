@@ -50,7 +50,7 @@ const Button = React.forwardRef<
       ref={ref}>
       {source ? (
         <View className='flex flex-row items-center justify-center gap-4'>
-          <ExpoImage source={source} className='h-7 w-7' />
+          <ExpoImage source={source} className='h-7.5 w-7.5' />
           <Text
             className={docking(buttonTextVariants({ variant }), {
               className: labelClasses,

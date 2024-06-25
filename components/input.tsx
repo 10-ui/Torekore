@@ -44,13 +44,6 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
         {source && (
           <ExpoImage
             source={source}
-            style={{
-              width: 20,
-              height: 20,
-              position: "absolute",
-              right: 16,
-              bottom: 12,
-            }}
             className='absolute bottom-4 right-3 h-5 w-5'
           />
         )}
