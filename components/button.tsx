@@ -1,6 +1,6 @@
 import React from "react";
-import { type VariantProps, cva } from "class-variance-authority";
 import { docking } from "@/utils/docking";
+import { type VariantProps, cva } from "class-variance-authority";
 import { Pressable, Text, View } from "react-native";
 import { Image } from "expo-image";
 

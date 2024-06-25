@@ -1,10 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.tsx", "./app/**/**/*.tsx", "./components/*.tsx"],
+  content: [
+    "./app/**/*.tsx",
+    "./app/**/**/*.tsx",
+    "./components/*.tsx",
+    "./components/**/*.tsx",
+  ],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
       spacing: {
+        12.5: "3.125rem",
         13: "3.25rem",
         15: "3.75rem",
       },
