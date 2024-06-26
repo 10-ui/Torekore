@@ -3,44 +3,47 @@ import { View, Text, StyleSheet } from "react-native";
 // Tailwindコンポーネントのインポート
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
-import { Image } from "expo-image";
+import ExpoImage from "@/components/expo-image";
 
 export default function Signup({ navigation }: { navigation: any }) {
   return (
-    <View className="flex-1 items-center justify-center bg-white px-13">
-      <Image
+    <View className='flex-1 items-center justify-center bg-white px-13'>
+      <ExpoImage
         source={require("@/assets/logos/applogo.svg")}
-        style={{ width: 150, height: 45, padding: 20, marginBottom:50}}
+        className='mb-4'
       />
       <Input
-        label="メールアドレス"
-        placeholder="メールアドレスを入力してください"
-        className="mb-4"
+        label='メールアドレス'
+        placeholder='メールアドレスを入力してください'
+        className='mb-4'
         style={{ marginBottom: 0 }}
       />
       <Input
-        label="パスワード"
-        placeholder="パスワードを入力してください"
+        label='パスワード'
+        placeholder='パスワードを入力してください'
         style={{ marginBottom: 0 }}
+        className='mb-4'
       />
       <Button
-        label="登録"
-        variant="outline"
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-        className="mb-4"
+        label='登録'
+        variant='outline'
+        className='mb-4'
         style={{ marginBottom: 20 }}
       />
-      <Image
+      <Button
+        label='googleで連携'
+        className='mb-4'
+        variant='withicon'
         source={require("@/assets/logos/google.svg")}
-        style={{ width: 280, height: 50, marginBottom: 10 }}
       />
-      <Image
+      <Button
+        label='Xで連携'
+        className='mb-4'
+        variant='withicon'
         source={require("@/assets/logos/X.svg")}
-        style={{ width: 280, height: 50, }}
       />
-      <Button label="ログインはこちら" className="mb-4" />
+
+      <Button label='ログインはこちら' className='mb-4' />
     </View>
   );
 }
