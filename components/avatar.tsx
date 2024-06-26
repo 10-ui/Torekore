@@ -1,9 +1,10 @@
-import { forwardRef, useState } from "react";
-import { Image, Text, View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 
 import { docking } from "@/utils/docking";
+import ExpoImage from "@/components/expo-image";
 
-const Avatar = forwardRef<
+const Avatar = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
@@ -18,17 +19,17 @@ const Avatar = forwardRef<
 ));
 Avatar.displayName = "Avatar";
 
-const AvatarImage = forwardRef<
-  React.ElementRef<typeof Image>,
-  React.ComponentPropsWithoutRef<typeof Image>
+const AvatarImage = React.forwardRef<
+  React.ElementRef<typeof ExpoImage>,
+  React.ComponentPropsWithoutRef<typeof ExpoImage>
 >(({ className, ...props }, ref) => {
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = React.useState(false);
 
   if (hasError) {
     return null;
   }
   return (
-    <Image
+    <ExpoImage
       ref={ref}
       onError={() => setHasError(true)}
       className={docking("aspect-square h-full w-full", className)}
@@ -38,7 +39,7 @@ const AvatarImage = forwardRef<
 });
 AvatarImage.displayName = "AvatarImage";
 
-const AvatarFallback = forwardRef<
+const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & { textClassname?: string }
 >(({ children, className, textClassname, ...props }, ref) => (
