@@ -1,11 +1,11 @@
 import React from "react";
 import { docking } from "@/utils/docking";
 import { type VariantProps, cva } from "class-variance-authority";
-import { Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 import ExpoImage from "@/components/expo-image";
 
 const inputVariants = cva(
-  "flex h-12 w-full items-center justify-center border border-input p-3 text-slate-400",
+  "flex h-12 w-full items-center justify-center border border-input p-3 text-black",
   {
     variants: {
       variant: {
@@ -25,12 +25,25 @@ export interface InputProps
   label?: string;
   labelClasses?: string;
   source?: string;
+  sourceOnPress?: () => void;
 }
 
 const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
-  ({ className, label, labelClasses, source, variant, ...props }, ref) => (
+  (
+    {
+      className,
+      label,
+      labelClasses,
+      source,
+      sourceOnPress,
+      variant,
+      ...props
+    },
+    ref,
+  ) => (
     <>
-      <View className={docking("flex w-full flex-col gap-1", className)}>
+      <View
+        className={docking("relative flex w-full flex-col gap-1", className)}>
         {label && (
           <Text className={docking("text-base", { className: labelClasses })}>
             {label}
@@ -42,10 +55,11 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
           {...props}
         />
         {source && (
-          <ExpoImage
-            source={source}
-            className='absolute bottom-4 right-3 h-5 w-5'
-          />
+          <Pressable
+            onPress={sourceOnPress}
+            className='absolute bottom-3.5 right-3'>
+            <ExpoImage source={source} className='h-5 w-5' />
+          </Pressable>
         )}
       </View>
     </>
