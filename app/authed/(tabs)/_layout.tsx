@@ -16,7 +16,7 @@ export default function AuthedLayout() {
             headerTitle: () => {
               return (
                 <Image
-                  source={require("@/assets/logos/applogo.svg")}
+                  source={require("@/assets/logos/app/appLogo.svg")}
                   style={{ width: 100, height: 30 }}
                 />
               );

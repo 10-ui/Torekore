@@ -12,7 +12,7 @@ export default function Login() {
   return (
     <View className='flex-1 items-center justify-center bg-white px-13'>
       <ExpoImage
-        source={require("@/assets/logos/applogo.svg")}
+        source={require("@/assets/logos/app/appLogo.svg")}
         className='mb-5 h-[45px] w-[150px]'
       />
       <Input
@@ -28,8 +28,8 @@ export default function Login() {
         placeholder='パスワードを入力'
         source={
           isPasswordVisible
-            ? require("@/assets/icons/eye-off.svg")
-            : require("@/assets/icons/eye.svg")
+            ? require("@/assets/icons/form/eye-off.svg")
+            : require("@/assets/icons/form/eye.svg")
         }
         sourceOnPress={() => setIsPasswordVisible(!isPasswordVisible)}
         secureTextEntry={isPasswordVisible}

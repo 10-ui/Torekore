@@ -13,6 +13,7 @@ const buttonVariants = cva(
         outline: "bg-transparent border border-2 border-appBlue",
         withicon:
           "items-start px-20 bg-transparent border border-2 border-appBlue",
+        mission: "bg-transparent border border-2 border-appBlue",
       },
     },
     defaultVariants: {
@@ -27,6 +28,7 @@ const buttonTextVariants = cva("text-white text-base", {
       default: "text-white",
       outline: "text-appBlue",
       withicon: "text-appBlue",
+      mission: "text-black",
     },
   },
 });

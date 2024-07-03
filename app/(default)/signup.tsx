@@ -12,7 +12,7 @@ export default function Signup() {
   return (
     <View className='flex-1 items-center justify-center bg-white px-13'>
       <ExpoImage
-        source={require("@/assets/logos/applogo.svg")}
+        source={require("@/assets/logos/app/appLogo.svg")}
         className='mb-4 h-[45px] w-[150px]'
       />
       <Input
@@ -28,8 +28,8 @@ export default function Signup() {
         placeholder='英数字を含めた８文字以上'
         source={
           isPasswordVisible
-            ? require("@/assets/icons/eye-off.svg")
-            : require("@/assets/icons/eye.svg")
+            ? require("@/assets/icons/form/eye-off.svg")
+            : require("@/assets/icons/form/eye.svg")
         }
         sourceOnPress={() => setIsPasswordVisible(!isPasswordVisible)}
         secureTextEntry={isPasswordVisible}
@@ -40,13 +40,13 @@ export default function Signup() {
         label='googleで連携'
         className='mb-4'
         variant='withicon'
-        source={require("@/assets/logos/google.svg")}
+        source={require("@/assets/logos/sns/google.svg")}
       />
       <Button
         label='Xで連携'
         className='mb-4'
         variant='withicon'
-        source={require("@/assets/logos/X.svg")}
+        source={require("@/assets/logos/sns/X.svg")}
       />
       <Link href='/login' className='mt-8 underline'>
         ログインはこちら
