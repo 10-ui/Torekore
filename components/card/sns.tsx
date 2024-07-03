@@ -1,24 +1,30 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { icondataMiddle, icondataBottom } from "@/utils/icondata";
+import { View, Text, Pressable } from "react-native";
+import { icondata } from "@/utils/icondata";
 import ExpoImage from "@/components/expo-image";
 
 export default function Sns() {
   const [selectedIcons, setSelectedIcons] = useState(
     Array(4).fill(require("@/assets/logos/sns/empty.png")),
   );
+  const [isOpened, setIsOpened] = useState(false);
 
   const handleRemoveIcon = (index: number) => {
     const updatedIcons = [...selectedIcons];
-    updatedIcons[index] = require("@/assets/logos/sns/empty.png"); // アイコンをempty.pngに置き換える
+    updatedIcons[index] = require("@/assets/logos/sns/empty.png");
     setSelectedIcons(updatedIcons);
   };
 
-  const handleIconClick = (src: string, index: number) => {
+  const handleIconClick = (src: string, iconSet: string) => {
+    const setIcons = icondata
+      .filter((item) => item.set === iconSet)
+      .map((item) => item.src);
+    const setIndex = setIcons.indexOf(src);
     const updatedIcons = [...selectedIcons];
-    // アイコンが既にempty.pngでない場合に置き換える
-    if (updatedIcons[index] !== require("@/assets/logos/sns/empty.png")) {
-      updatedIcons[index] = require("@/assets/logos/sns/empty.png");
+    const currentIconIndex = updatedIcons.findIndex((icon) => icon === src);
+
+    if (currentIconIndex !== -1) {
+      updatedIcons[currentIconIndex] = require("@/assets/logos/sns/empty.png");
     } else {
       const emptyIndex = updatedIcons.indexOf(
         require("@/assets/logos/sns/empty.png"),
@@ -37,8 +43,8 @@ export default function Sns() {
         <View className='flex flex-row gap-x-3'>
           {selectedIcons.map((icon, index) => (
             <View key={index} className='relative'>
-              {icon !== require("@/assets/logos/sns/empty.png") && (
-                <TouchableOpacity
+              {icon !== require("@/assets/logos/sns/empty.png") && isOpened && (
+                <Pressable
                   onPress={() => handleRemoveIcon(index)}
                   className='absolute right-0 top-0 z-10'
                   style={{
@@ -48,39 +54,46 @@ export default function Sns() {
                     source={require("@/assets/logos/sns/close.svg")}
                     className='h-5 w-5'
                   />
-                </TouchableOpacity>
+                </Pressable>
               )}
               <ExpoImage source={icon} className='h-12.5 w-12.5' />
             </View>
           ))}
         </View>
-        <View className='flex flex-row gap-x-3'>
-          {icondataMiddle.map((item, index) => (
-            <TouchableOpacity
-              key={item.name}
-              onPress={() => handleIconClick(item.src, index)}
-              disabled={selectedIcons.includes(item.src)}>
-              <ExpoImage
-                source={item.src}
-                className={`h-12.5 w-12.5 ${selectedIcons.includes(item.src) ? "opacity-50" : ""}`}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View className='flex flex-row gap-x-3'>
-          {icondataBottom.map((item, index) => (
-            <TouchableOpacity
-              key={item.name}
-              onPress={() => handleIconClick(item.src, index)}
-              disabled={selectedIcons.includes(item.src)}>
-              <ExpoImage
-                source={item.src}
-                className={`h-12.5 w-12.5 ${selectedIcons.includes(item.src) ? "opacity-50" : ""}`}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
+        {isOpened && (
+          <>
+            {["middle", "bottom"].map((set) => (
+              <View key={set} className='flex flex-row gap-x-3'>
+                {icondata
+                  .filter((item) => item.set === set)
+                  .map((item, index) => (
+                    <Pressable
+                      key={item.name}
+                      onPress={() => handleIconClick(item.src, set)}
+                      disabled={selectedIcons.includes(item.src)}>
+                      <ExpoImage
+                        source={item.src}
+                        className={`h-12.5 w-12.5 ${selectedIcons.includes(item.src) ? "opacity-50" : ""}`}
+                      />
+                    </Pressable>
+                  ))}
+              </View>
+            ))}
+          </>
+        )}
       </View>
+      <Pressable
+        onPress={() => setIsOpened(!isOpened)}
+        className='mr-1 mt-[15px]'>
+        <ExpoImage
+          source={
+            isOpened
+              ? require("@/assets/logos/sns/minus.svg")
+              : require("@/assets/logos/sns/plus.svg")
+          }
+          className='h-5 w-5'
+        />
+      </Pressable>
     </View>
   );
 }
