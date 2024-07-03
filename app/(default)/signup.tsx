@@ -3,44 +3,54 @@ import { View, Text, StyleSheet } from "react-native";
 // Tailwindコンポーネントのインポート
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
-import { Image } from "expo-image";
+import ExpoImage from "@/components/expo-image";
+import { Divider } from "@/components/divider";
+import { Link } from "expo-router";
 
-export default function Signup({ navigation }: { navigation: any }) {
+export default function Signup() {
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(true);
   return (
-    <View className="flex-1 items-center justify-center bg-white px-13">
-      <Image
-        source={require("@/assets/logos/applogo.svg")}
-        style={{ width: 150, height: 45, padding: 20, marginBottom:50}}
+    <View className='flex-1 items-center justify-center bg-white px-13'>
+      <ExpoImage
+        source={require("@/assets/logos/app/appLogo.svg")}
+        className='mb-4 h-[45px] w-[150px]'
       />
       <Input
-        label="メールアドレス"
-        placeholder="メールアドレスを入力してください"
-        className="mb-4"
-        style={{ marginBottom: 0 }}
+        keyboardType='email-address'
+        textContentType='emailAddress'
+        label='ログインID (メールアドレス)'
+        placeholder='example@mail.com'
+        className='mb-4'
       />
       <Input
-        label="パスワード"
-        placeholder="パスワードを入力してください"
-        style={{ marginBottom: 0 }}
+        textContentType='password'
+        label='パスワード'
+        placeholder='英数字を含めた８文字以上'
+        source={
+          isPasswordVisible
+            ? require("@/assets/icons/form/eye-off.svg")
+            : require("@/assets/icons/form/eye.svg")
+        }
+        sourceOnPress={() => setIsPasswordVisible(!isPasswordVisible)}
+        secureTextEntry={isPasswordVisible}
+      />
+      <Button label='登録' className='mt-9' />
+      <Divider className='my-9' />
+      <Button
+        label='googleで連携'
+        className='mb-4'
+        variant='withicon'
+        source={require("@/assets/logos/sns/google.svg")}
       />
       <Button
-        label="登録"
-        variant="outline"
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-        className="mb-4"
-        style={{ marginBottom: 20 }}
+        label='Xで連携'
+        className='mb-4'
+        variant='withicon'
+        source={require("@/assets/logos/sns/X.svg")}
       />
-      <Image
-        source={require("@/assets/logos/google.svg")}
-        style={{ width: 280, height: 50, marginBottom: 10 }}
-      />
-      <Image
-        source={require("@/assets/logos/X.svg")}
-        style={{ width: 280, height: 50, }}
-      />
-      <Button label="ログインはこちら" className="mb-4" />
+      <Link href='/login' className='mt-8 underline'>
+        ログインはこちら
+      </Link>
     </View>
   );
 }

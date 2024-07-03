@@ -1,45 +1,49 @@
 import { Button } from "@/components/button";
-import { Image } from "expo-image";
-import { Text, View } from "react-native";
 import { Input } from "@/components/input";
 import { useRouter } from "expo-router";
+import { View } from "react-native";
+import { useState } from "react";
+import { Divider } from "@/components/divider";
+import ExpoImage from "@/components/expo-image";
 
 export default function Login() {
   const router = useRouter();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
   return (
     <View className='flex-1 items-center justify-center bg-white px-13'>
-      <Image
-        source={require("@/assets/logos/applogo.svg")}
-        style={{ width: 150, height: 45, marginBottom: 20 }}
+      <ExpoImage
+        source={require("@/assets/logos/app/appLogo.svg")}
+        className='mb-5 h-[45px] w-[150px]'
       />
-
       <Input
+        keyboardType='email-address'
+        textContentType='emailAddress'
         label='ログインID (メールアドレス)'
-        placeholder='メールアドレスを入力してください'
+        placeholder='example@mail.com'
+        className='mb-4'
       />
-      <Input label='パスワード' placeholder='パスワードを入力してください' />
+      <Input
+        textContentType='password'
+        label='パスワード'
+        placeholder='パスワードを入力'
+        source={
+          isPasswordVisible
+            ? require("@/assets/icons/form/eye-off.svg")
+            : require("@/assets/icons/form/eye.svg")
+        }
+        sourceOnPress={() => setIsPasswordVisible(!isPasswordVisible)}
+        secureTextEntry={isPasswordVisible}
+      />
       <Button
         label='ログイン'
-        onPress={() => {
-          router.push("/authed/");
-        }}
+        onPress={() => router.push("/authed/")}
+        className='mt-8'
       />
-
+      <Divider className='my-9' />
       <Button
-        label='初めて利用される方はこちら'
-        variant='outline'
-        onPress={() => {
-          router.push("/signup");
-        }}
-      />
-      <Image
-        source={require("@/assets/logos/google.svg")}
-        style={{ width: 280, height: 40 }}
-      />
-
-      <Image
-        source={require("@/assets/logos/X.svg")}
-        style={{ width: 280, height: 50, marginTop: 10 }}
+        label='初めて利用の方はこちら'
+        variant={"outline"}
+        onPress={() => router.push("/signup")}
       />
     </View>
   );
