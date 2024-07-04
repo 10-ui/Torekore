@@ -24,6 +24,7 @@ export interface InputProps
     VariantProps<typeof inputVariants> {
   label?: string;
   labelClasses?: string;
+  containerClasses?: string;
   source?: string;
   sourceOnPress?: () => void;
 }
@@ -34,6 +35,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
       className,
       label,
       labelClasses,
+      containerClasses,
       source,
       sourceOnPress,
       variant,
@@ -43,15 +45,16 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
   ) => (
     <>
       <View
-        className={docking("relative flex w-full flex-col gap-1", className)}>
+        className={docking(
+          "relative flex w-full flex-col gap-1",
+          containerClasses,
+        )}>
         {label && (
-          <Text className={docking("text-base", { className: labelClasses })}>
-            {label}
-          </Text>
+          <Text className={docking("text-base", labelClasses)}>{label}</Text>
         )}
         <TextInput
           ref={ref}
-          className={docking(className, inputVariants({ variant }))}
+          className={docking(inputVariants({ variant }), className)}
           {...props}
         />
         {source && (
