@@ -15,6 +15,11 @@ module.exports = {
         13: "3.25rem",
         15: "3.75rem",
       },
+      backgroundImage: {
+        "card-blue": "url('/assets/background/bg_blue.png')",
+        "card-red": "url('/assets/background/bg_red.png')",
+        "card-yellow": "url('/assets/background/bg_yellow.png')",
+      },
       colors: {
         appBlue: "var(--app-blue)",
         appLightBlue: "var(--app-light-blue)",

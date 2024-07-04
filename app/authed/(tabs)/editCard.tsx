@@ -1,6 +1,7 @@
 import { Text, View, ScrollView } from "react-native";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
-import CardApp from "@/components/card/cardApp";
+import CardInfo from "@/components/card/card-info";
+import { useState } from "react";
 
 export default function EditCard() {
   return (
@@ -22,7 +23,7 @@ export default function EditCard() {
             />
           </TabsList>
           <TabsContent value='カード情報'>
-            <CardApp />
+            <CardInfo />
           </TabsContent>
           <TabsContent value='カードスタイル'>
             <View className='bg-missionBlue h-60 w-full space-y-7'>
