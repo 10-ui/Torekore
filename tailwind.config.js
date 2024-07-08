@@ -14,6 +14,7 @@ module.exports = {
         12.5: "3.125rem",
         13: "3.25rem",
         15: "3.75rem",
+        25: "6.25rem",
       },
       backgroundImage: {
         "card-blue": "url('/assets/background/bg_blue.png')",
