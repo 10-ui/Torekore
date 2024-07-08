@@ -2,71 +2,81 @@ import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
-import { icondata } from "@/utils/icondata";
+import { icondata } from "@/utils/data/icondata";
 import ExpoImage from "@/components/expo-image";
+import { useCardInfoStore } from "@/utils/store";
 
-export default function Sns({
-  snsid,
-  setSnsid,
-}: {
-  snsid: string[];
-  setSnsid: (snsid: string[]) => void;
-}) {
-  const [selectedIcons, setSelectedIcons] = useState(
-    Array(4).fill(require("@/assets/logos/sns/empty.png")),
-  );
+export default function Sns() {
   const [isOpened, setIsOpened] = useState(false);
-  const [customModalVisible, setCustomModalVisible] = useState(false);
-  const [currentLink, setCurrentLink] = useState("");
-  const [inputId, setInputId] = useState("");
+  const [ModalVisible, setModalVisible] = useState(false);
+  const [currentBaseLink, setCurrentBaseLink] = useState("");
+  const [currentUserId, setCurrentUserId] = useState("");
+  const { snsInfo } = useCardInfoStore();
+  const setSnsInfo = useCardInfoStore((state) => state.setSnsInfo);
 
-  const openCustomModal = (link: string) => {
-    setCurrentLink(link);
-    setCustomModalVisible(true);
-    const index = icondata.findIndex((item) => item.snslink === link);
-    setInputId(snsid[index] || ""); // 現在のSNS IDを設定
-  };
-
-  const handleRemoveIcon = (index: number) => {
-    const updatedIcons = [...selectedIcons];
-    updatedIcons[index] = require("@/assets/logos/sns/empty.png");
-    setSelectedIcons(updatedIcons);
-  };
-
-  const handleTopIconClick = (icon: string) => {
-    if (!isOpened) return;
-    const iconLink = icondata.find((item) => item.src === icon)?.snslink;
-    if (!iconLink) return;
-    openCustomModal(iconLink);
-  };
-
-  const handleIconClick = (src: string) => {
-    const updatedIcons = [...selectedIcons];
-    const currentIconIndex = updatedIcons.findIndex((icon) => icon === src);
-
-    if (currentIconIndex !== -1) {
-      updatedIcons[currentIconIndex] = require("@/assets/logos/sns/empty.png");
-    } else {
-      const emptyIndex = updatedIcons.indexOf(
-        require("@/assets/logos/sns/empty.png"),
-      );
-      if (emptyIndex !== -1) {
-        updatedIcons[emptyIndex] = src;
-      }
+  const handleIconAdd = (param: {
+    name: string;
+    src: string;
+    userId: string;
+    baseLink: string;
+  }) => {
+    const emptyIconIndex = snsInfo.findIndex(
+      (item) => item.src === require("@/assets/logos/sns/empty.png"),
+    );
+    if (emptyIconIndex !== -1) {
+      const updatedSnsInfo = [...snsInfo];
+      updatedSnsInfo[emptyIconIndex] = {
+        ...snsInfo[emptyIconIndex],
+        name: param.name,
+        src: param.src,
+        userId: param.userId,
+        baseLink: param.baseLink,
+      };
+      setSnsInfo(updatedSnsInfo);
     }
-    setSelectedIcons(updatedIcons);
+  };
+
+  const handleIconRemove = (param: {
+    name: string;
+    src: string;
+    userId: string;
+    baseLink: string;
+  }) => {
+    const updatedSnsInfo = snsInfo.map((item) => {
+      if (item.src === param.src) {
+        return {
+          ...item,
+          name: "",
+          src: require("@/assets/logos/sns/empty.png"),
+          userId: "",
+          baseLink: "",
+        };
+      }
+      return item;
+    });
+    setSnsInfo(updatedSnsInfo);
+  };
+
+  const openSetIdModal = (param: {
+    name: string;
+    src: string;
+    userId: string;
+    baseLink: string;
+  }) => {
+    setModalVisible(true);
+    setCurrentBaseLink(param.baseLink);
+    setCurrentUserId(param.userId);
   };
 
   const saveId = () => {
-    const newSnsIds = [...snsid];
-    const iconIndex = icondata.findIndex(
-      (item) => item.snslink === currentLink,
-    );
-    if (iconIndex !== -1) {
-      newSnsIds[iconIndex] = inputId; // SNS IDを更新
-    }
-    setSnsid(newSnsIds); // 更新されたSNS IDリストを保存
-    setCustomModalVisible(false);
+    const updatedSnsId = snsInfo.map((item) => {
+      if (item.baseLink === currentBaseLink) {
+        return { ...item, userId: currentUserId };
+      }
+      return item;
+    });
+    setSnsInfo(updatedSnsId);
+    setModalVisible(false);
   };
 
   return (
@@ -75,14 +85,14 @@ export default function Sns({
         <Text className='mr-9 text-base font-bold'>SNS</Text>
         <View className='mr-12 flex flex-col gap-y-8'>
           <View className='flex flex-row gap-x-3'>
-            {selectedIcons.map((icon, index) => (
+            {snsInfo.map((item, index) => (
               <View key={index} className='relative'>
-                {icon !== require("@/assets/logos/sns/empty.png") &&
+                {item.src !== require("@/assets/logos/sns/empty.png") &&
                   isOpened && (
                     <Pressable
-                      onPress={() => handleRemoveIcon(index)}
                       className='absolute right-0 top-0 z-10'
-                      disabled={customModalVisible}
+                      disabled={ModalVisible}
+                      onPress={() => handleIconRemove(item)}
                       style={{
                         transform: [{ translateX: 7.5 }, { translateY: -7.5 }],
                       }}>
@@ -92,26 +102,28 @@ export default function Sns({
                       />
                     </Pressable>
                   )}
-                <Pressable onPress={() => handleTopIconClick(icon)}>
-                  <ExpoImage source={icon} className='h-12.5 w-12.5' />
+                <Pressable
+                  onPress={() => openSetIdModal(item)}
+                  disabled={!isOpened}>
+                  <ExpoImage source={item.src} className='h-12.5 w-12.5' />
                 </Pressable>
               </View>
             ))}
           </View>
-          {isOpened && !customModalVisible && (
+          {isOpened && !ModalVisible && (
             <>
               {["middle", "bottom"].map((set) => (
                 <View key={set} className='flex flex-row gap-x-3'>
                   {icondata
                     .filter((item) => item.set === set)
-                    .map((item, index) => (
+                    .map((param) => (
                       <Pressable
-                        key={item.name}
-                        onPress={() => handleIconClick(item.src)}
-                        disabled={selectedIcons.includes(item.src)}>
+                        key={param.name}
+                        onPress={() => handleIconAdd(param)}
+                        disabled={snsInfo.some((sns) => sns.src === param.src)}>
                         <ExpoImage
-                          source={item.src}
-                          className={`h-12.5 w-12.5 ${selectedIcons.includes(item.src) ? "opacity-50" : ""}`}
+                          source={param.src}
+                          className={`h-12.5 w-12.5 ${snsInfo.some((sns) => sns.src === param.src) ? "opacity-50" : ""}`}
                         />
                       </Pressable>
                     ))}
@@ -123,7 +135,7 @@ export default function Sns({
         <Pressable
           onPress={() => setIsOpened(!isOpened)}
           className='mr-1 mt-[15px]'
-          disabled={customModalVisible}>
+          disabled={ModalVisible}>
           <ExpoImage
             source={
               isOpened
@@ -134,14 +146,14 @@ export default function Sns({
           />
         </Pressable>
       </View>
-      {customModalVisible && (
+      {ModalVisible && (
         <View className='mx-3 max-w-full rounded-lg border border-input bg-appLightBlue p-4'>
           <Text className='text-base'>アカウント名を入力</Text>
           <View className='flex w-full flex-row items-center justify-center gap-x-2'>
-            <Text className='text-sm'>{currentLink}/</Text>
+            <Text className='text-sm'>{currentBaseLink}</Text>
             <Input
-              value={inputId}
-              onChangeText={setInputId}
+              value={currentUserId}
+              onChangeText={setCurrentUserId}
               placeholder='@accountID'
               className='h-8'
               containerClasses='w-36'

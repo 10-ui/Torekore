@@ -1,13 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
 import { Button } from "@/components/button";
 import { router } from "expo-router";
-import { missiondata } from "@/utils/missiondata";
+import { missiondata } from "@/utils/data/missiondata";
 import { Text, View, ScrollView } from "react-native";
+import CardView from "@/components/card/card-view";
 
 export default function Home() {
   return (
     <ScrollView className='bg-white px-4 py-6'>
-      <View className='h-60 w-full bg-slate-500'></View>
+      <CardView />
       <Button
         label='カードをシェア'
         className='mt-6'
