@@ -80,10 +80,10 @@ export default function Sns() {
   };
 
   return (
-    <View className='mt-2 flex w-full flex-col gap-7 border border-input px-3 py-4'>
-      <View className='flex flex-row items-start'>
-        <Text className='mr-9 text-base font-bold'>SNS</Text>
-        <View className='mr-12 flex flex-col gap-y-8'>
+    <View className='mt-2 flex w-full flex-col gap-7 border border-input p-4'>
+      <View className='flex flex-row items-start justify-between'>
+        <Text className='text-base font-bold'>SNS</Text>
+        <View className='flex flex-col gap-y-8'>
           <View className='flex flex-row gap-x-3'>
             {snsInfo.map((item, index) => (
               <View key={index} className='relative'>
@@ -132,10 +132,7 @@ export default function Sns() {
             </>
           )}
         </View>
-        <Pressable
-          onPress={() => setIsOpened(!isOpened)}
-          className='mr-1 mt-[15px]'
-          disabled={ModalVisible}>
+        <Pressable onPress={() => setIsOpened(!isOpened)} className='mt-[15px]'>
           <ExpoImage
             source={
               isOpened

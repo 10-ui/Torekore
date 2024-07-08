@@ -5,6 +5,7 @@ import { Button } from "@/components/button";
 import CardView from "@/components/card/card-view";
 import { useCardInfoStore } from "@/utils/store";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import DoubleName from "@/components/card/double-name";
 
 export default function CardInfo() {
   const setName = useCardInfoStore((state) => state.setName);
@@ -21,7 +22,7 @@ export default function CardInfo() {
         }
       />
       <Sns />
-      
+      <DoubleName />
       <Button label='保存してプレビュー' className='mt-6' />
     </>
   );

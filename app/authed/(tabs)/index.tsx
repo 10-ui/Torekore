@@ -7,7 +7,7 @@ import CardView from "@/components/card/card-view";
 
 export default function Home() {
   return (
-    <ScrollView className='bg-white px-4 py-6'>
+    <ScrollView className='w-full bg-white px-4 py-6'>
       <CardView />
       <Button
         label='カードをシェア'

@@ -1,12 +1,11 @@
 import { Text, View, ScrollView } from "react-native";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/tabs";
 import CardInfo from "@/components/card/card-info";
-import { useState } from "react";
 
 export default function EditCard() {
   return (
-    <View className='flex-1 items-center bg-white p-4'>
-      <ScrollView>
+    <View className='w-full flex-1 items-center bg-white p-4'>
+      <ScrollView className='w-full'>
         <Tabs defaultValue='カード情報'>
           <TabsList>
             <TabsTrigger

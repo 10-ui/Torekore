@@ -3,7 +3,7 @@ import { cardInfo } from "@/utils/interfaces";
 
 const useCardInfoStore = create<cardInfo>()((set) => ({
   name: "",
-  doubleName: "ほやほやの初心者",
+  doubleName: "かけだしの 学生",
   selectedIcons: Array(4).fill(require("@/assets/logos/sns/empty.png")),
   medals: [],
   backgroundImage: require("@/assets/background/bg_blue.png"),
