@@ -24,22 +24,25 @@ export default function DoubleName() {
 
   useEffect(() => {
     const [initialLeft, initialRight] = doubleName.split(" ");
-    const leftIndex = doubleNameData[0].left!.findIndex(
+    const leftIndex = doubleNameData[0].left?.findIndex(
       (item) => item.name === initialLeft,
     );
-    const rightIndex = doubleNameData[1].right!.findIndex(
+    const rightIndex = doubleNameData[1].right?.findIndex(
       (item) => item.name === initialRight,
     );
 
-    if (leftIndex !== -1) {
-      leftScrollViewRef.current?.scrollTo({
+    if (leftIndex === undefined || rightIndex === undefined) {
+      return;
+    }
+    if (leftIndex >= 0 && leftScrollViewRef.current) {
+      leftScrollViewRef.current.scrollTo({
         y: leftIndex * itemHeight,
         animated: false,
       });
       setSelectedLeft(initialLeft);
     }
-    if (rightIndex !== -1) {
-      rightScrollViewRef.current?.scrollTo({
+    if (rightIndex >= 0 && rightScrollViewRef.current) {
+      rightScrollViewRef.current.scrollTo({
         y: rightIndex * itemHeight,
         animated: false,
       });

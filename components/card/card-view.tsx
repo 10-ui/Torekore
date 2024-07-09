@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Linking } from "react-native";
+import { Text, View, Pressable, Linking } from "react-native";
 import ExpoImage from "@/components/expo-image";
 import { useCardInfoStore } from "@/utils/store";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
@@ -34,12 +34,12 @@ export default function CardView() {
                     "flex flex-row items-center gap-2",
                   )}>
                   <ExpoImage source={sns.src} className='h-6 w-6' />
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => Linking.openURL(sns.baseLink + sns.userId)}>
                     {sns.userId && (
                       <Text className='text-base'>@{sns.userId}</Text>
                     )}
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               ))}
             </View>

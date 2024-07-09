@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { cardInfo } from "@/utils/interfaces";
+import { cardInfo, userState, missions } from "@/utils/interfaces";
 
 const useCardInfoStore = create<cardInfo>()((set) => ({
   name: "",
@@ -22,4 +22,47 @@ const useCardInfoStore = create<cardInfo>()((set) => ({
   setFontName: (fontName) => set({ fontName }),
 }));
 
-export { useCardInfoStore };
+const useUserStateStore = create<userState>()((set) => ({
+  uniqueID: "",
+  missions: [
+    {
+      source: require("@/assets/icons/mission/firstchange.png"),
+      title: "はじまりの証",
+      description: "カード交換をしてみよう",
+      isCompleted: false,
+    },
+    {
+      source: require("@/assets/icons/mission/sns.png"),
+      title: "広げる輪",
+      description: "SNSにシェアしてみよう",
+      isCompleted: false,
+    },
+    {
+      source: require("@/assets/icons/mission/10friend.png"),
+      title: "社交ビギナー",
+      description: "10人とカード交換してみよう",
+      isCompleted: false,
+    },
+    {
+      title: "グローバル！",
+      source: require("@/assets/icons/mission/global.png"),
+      description: "国籍の異なる人とカードを交換しよう",
+      isCompleted: false,
+    },
+  ],
+  setIsCompleted: (missionIndex: number, isCompleted: boolean) => {
+    set((state) => {
+      const missions = state.missions.map((mission, index) => {
+        if (index === missionIndex) {
+          return { ...mission, isCompleted: isCompleted };
+        }
+        return mission;
+      });
+      return { missions };
+    });
+  },
+  setMissions: (missions: missions[]) => set({ missions }),
+  setUniqueID: (uniqueID: string) => set({ uniqueID }),
+}));
+
+export { useCardInfoStore, useUserStateStore };

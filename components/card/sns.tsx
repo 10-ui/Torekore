@@ -8,7 +8,7 @@ import { useCardInfoStore } from "@/utils/store";
 
 export default function Sns() {
   const [isOpened, setIsOpened] = useState(false);
-  const [ModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentBaseLink, setCurrentBaseLink] = useState("");
   const [currentUserId, setCurrentUserId] = useState("");
   const { snsInfo } = useCardInfoStore();
@@ -63,7 +63,7 @@ export default function Sns() {
     userId: string;
     baseLink: string;
   }) => {
-    setModalVisible(true);
+    setIsModalVisible(true);
     setCurrentBaseLink(param.baseLink);
     setCurrentUserId(param.userId);
   };
@@ -76,11 +76,11 @@ export default function Sns() {
       return item;
     });
     setSnsInfo(updatedSnsId);
-    setModalVisible(false);
+    setIsModalVisible(false);
   };
 
   return (
-    <View className='mt-2 flex w-full flex-col gap-7 border border-input p-4 bg-white'>
+    <View className='mt-2 flex w-full flex-col gap-7 border border-input bg-white p-4'>
       <View className='flex flex-row items-start justify-between'>
         <Text className='text-base font-bold'>SNS</Text>
         <View className='flex flex-col gap-y-8'>
@@ -91,7 +91,7 @@ export default function Sns() {
                   isOpened && (
                     <Pressable
                       className='absolute right-0 top-0 z-10'
-                      disabled={ModalVisible}
+                      disabled={isModalVisible}
                       onPress={() => handleIconRemove(item)}
                       style={{
                         transform: [{ translateX: 7.5 }, { translateY: -7.5 }],
@@ -110,7 +110,7 @@ export default function Sns() {
               </View>
             ))}
           </View>
-          {isOpened && !ModalVisible && (
+          {isOpened && !isModalVisible && (
             <>
               {["middle", "bottom"].map((set) => (
                 <View key={set} className='flex flex-row gap-x-3'>
@@ -143,7 +143,7 @@ export default function Sns() {
           />
         </Pressable>
       </View>
-      {ModalVisible && (
+      {isModalVisible && (
         <View className='mx-3 max-w-full rounded-lg border border-input bg-appLightBlue p-4'>
           <Text className='text-base'>アカウント名を入力</Text>
           <View className='flex w-full flex-row items-center justify-center gap-x-2'>

@@ -28,6 +28,13 @@ export default function CardInfo() {
     }
   }, []);
 
+  const handleNameChange = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>,
+  ) => {
+    const newName = e.nativeEvent.text;
+    setName(newName);
+  };
+
   return (
     <>
       <ViewShot ref={viewShot}>
@@ -37,9 +44,7 @@ export default function CardInfo() {
         containerClasses='mt-4'
         placeholder='名前'
         variant='card'
-        onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) =>
-          setName(e.nativeEvent.text)
-        }
+        onChange={handleNameChange}
       />
       <Sns />
       <DoubleName />

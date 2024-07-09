@@ -22,4 +22,22 @@ interface cardAppearanceInfo {
 
 interface cardInfo extends cardBasicInfo, cardAppearanceInfo {}
 
-export { cardInfo };
+interface missions {
+  source: string;
+  title: string;
+  description: string;
+  isCompleted: boolean;
+}
+
+interface qrcodeInfo {
+  uniqueID: string;
+  setUniqueID: (uniqueID: string) => void;
+}
+
+interface userState extends qrcodeInfo {
+  missions: missions[];
+  setMissions: (missions: missions[]) => void;
+  setIsCompleted: (missionIndex: number, isCompleted: boolean) => void;
+}
+
+export { cardInfo, userState, missions };
