@@ -77,7 +77,7 @@ export default function DoubleName() {
   };
 
   return (
-    <View className='mt-2 flex w-full flex-col gap-7 border border-input py-4 pl-3 pr-2'>
+    <View className='mt-2 flex w-full flex-col gap-7 border border-input bg-white py-4 pl-3 pr-2'>
       <View className='flex flex-row items-start justify-between'>
         <Text className='mr-7 text-base'>二つ名</Text>
         <Pressable

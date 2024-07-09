@@ -8,7 +8,7 @@ export default function CardView() {
   const { backgroundImage, snsInfo, name, doubleName, medals } =
     useCardInfoStore();
   return (
-    <View className='relative h-60 w-full'>
+    <View className='relative h-60 w-full border border-input'>
       <ExpoImage
         source={backgroundImage}
         className='absolute left-0 top-0 -z-20 h-full w-full'
@@ -19,9 +19,7 @@ export default function CardView() {
           <View className='mt-5 flex flex-row items-start gap-x-6'>
             <Avatar className='h-25 w-25'>
               <AvatarImage source={require("@/assets/sample.png")} />
-              <AvatarFallback>
-                <Text>{name.slice(0, 2)}</Text>
-              </AvatarFallback>
+              <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
             </Avatar>
             <View className='flex flex-col'>
               <View className='mb-4 flex flex-row'>

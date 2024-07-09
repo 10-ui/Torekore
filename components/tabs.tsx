@@ -58,9 +58,8 @@ function TabsTrigger({
 
   return (
     <TouchableOpacity
-      className={docking("w-1/2 rounded bg-muted px-8 py-3", {
+      className={docking("w-1/2 rounded bg-muted px-8 py-3", className, {
         "bg-appBlue": activeTab === value,
-        className,
       })}
       onPress={() => setActiveTab(value)}
       {...props}>
@@ -83,12 +82,7 @@ function TabsContent({ value, className, ...props }: TabsContentProps) {
   const { activeTab } = useContext(TabsContext);
 
   if (value === activeTab)
-    return (
-      <View
-        className={docking("mt-4 w-full", className)}
-        {...props}
-      />
-    );
+    return <View className={docking("mt-4 w-full", className)} {...props} />;
 
   return null;
 }

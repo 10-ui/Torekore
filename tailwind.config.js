@@ -17,7 +17,9 @@ module.exports = {
         22: "5.5rem",
         23: "5.625rem",
         25: "6.25rem",
+        29: "7.25rem",
         30: "7.5rem",
+        33.5: "8.375rem",
         50: "12.5rem",
         100: "25rem",
       },
@@ -29,6 +31,7 @@ module.exports = {
       colors: {
         appBlue: "var(--app-blue)",
         appLightBlue: "var(--app-light-blue)",
+        appBG: "var(--app-bg)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
