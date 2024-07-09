@@ -3,12 +3,14 @@ interface cardBasicInfo {
   doubleName: string;
   medals: string[];
   snsInfo: { name: string; src: string; userId: string; baseLink: string }[];
+  fontName: string;
   setName: (name: string) => void;
   setDoubleName: (doubleName: string) => void;
   setMedals: (medals: string[]) => void;
   setSnsInfo: (
     snsInfo: { name: string; src: string; userId: string; baseLink: string }[],
   ) => void;
+  setFontName: (fontName: string) => void;
 }
 
 interface cardAppearanceInfo {
