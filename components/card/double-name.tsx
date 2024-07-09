@@ -102,10 +102,10 @@ export default function DoubleName() {
             <View className='h-50'>
               <ScrollView
                 ref={leftScrollViewRef}
-                className='h-100 hidden-scrollbar overflow-scroll'
+                className='hidden-scrollbar h-100 overflow-scroll'
                 onScrollEndDrag={(e) => handleScroll(e, "left")}
                 scrollEventThrottle={16}>
-                <View className='py-22 flex flex-col gap-1'>
+                <View className='flex flex-col gap-1 py-22'>
                   {doubleNameData[0].left?.map((item) => (
                     <Text
                       key={item.name}
@@ -120,10 +120,10 @@ export default function DoubleName() {
             <View className='h-50'>
               <ScrollView
                 ref={rightScrollViewRef}
-                className='h-100 hidden-scrollbar overflow-scroll'
+                className='hidden-scrollbar h-100 overflow-scroll'
                 onScrollEndDrag={(e) => handleScroll(e, "right")}
                 scrollEventThrottle={16}>
-                <View className='py-22 flex flex-col gap-1'>
+                <View className='flex flex-col gap-1 py-22'>
                   {doubleNameData[1].right?.map((item) => (
                     <Text
                       key={item.name}

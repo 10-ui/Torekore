@@ -1,6 +1,4 @@
-import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { View, Text, Share } from "react-native";
-import { Link } from "expo-router";
+import { View, Share } from "react-native";
 import { Button } from "@/components/button";
 import QRCode from "react-native-qrcode-svg";
 export default function Modal() {
@@ -14,15 +12,11 @@ export default function Modal() {
     }
   };
   return (
-    <View className='flex-1 bg-white p-4'>
-      <Link href='../' asChild className='text-right'>
-        <Ionicons name='close-outline' size={48} color='black' />
-      </Link>
-      <Text className='pt-6 text-center text-3xl font-bold'>
-        カードをシェア
-      </Text>
-      <QRCode value='https://www.jec.ac.jp' />
-      <Button label='カードをシェア' className='mt-6' onPress={shareText} />
+    <View className='flex-1 bg-white p-20'>
+      <View className='flex items-center gap-4'>
+        <QRCode value='https://www.jec.ac.jp' size={180} />
+        <Button label='カードをシェア' className='mt-6' onPress={shareText} />
+      </View>
     </View>
   );
 }
