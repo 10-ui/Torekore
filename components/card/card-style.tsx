@@ -5,11 +5,15 @@ import CardView from "@/components/card/card-view";
 import { Button } from "@/components/button";
 import { useCardInfoStore } from "@/utils/store";
 import { fontNameData } from "@/utils/data/fontnamedata";
+import { bgImageData } from "@/utils/data/bgimagedata";
 import { docking } from "@/utils/docking";
 
 export default function CardStyle() {
-  const { fontName } = useCardInfoStore();
+  const { fontName, backgroundImage } = useCardInfoStore();
   const setFontName = useCardInfoStore((state) => state.setFontName);
+  const setBackgroundImage = useCardInfoStore(
+    (state) => state.setBackgroundImage,
+  );
   const [isOpened, setIsOpened] = useState(false);
 
   return (
@@ -18,18 +22,21 @@ export default function CardStyle() {
       <View className='h-30 mt-7 border border-input bg-white px-3 py-4'>
         <Text className='mb-4'>背景</Text>
         <View className='flex flex-row gap-2'>
-          <ExpoImage
-            source={require("@/assets/background/bg_blue.png")}
-            className='w-23 h-14 border border-input'
-          />
-          <ExpoImage
-            source={require("@/assets/background/bg_red.png")}
-            className='w-23 h-14 border border-input'
-          />
-          <ExpoImage
-            source={require("@/assets/background/bg_yellow.png")}
-            className='w-23 h-14 border border-input'
-          />
+          {bgImageData.map((bgImage) => (
+            <Pressable
+              key={bgImage.name}
+              onPress={() => setBackgroundImage(bgImage.src)}>
+              <ExpoImage
+                source={bgImage.src}
+                className={docking(
+                  "w-23 h-14 border border-input",
+                  bgImage.src === backgroundImage
+                    ? "border-2 border-appBlue"
+                    : "border-input",
+                )}
+              />
+            </Pressable>
+          ))}
         </View>
       </View>
       <View className='mt-6 flex flex-row items-start justify-between border border-input bg-white px-4 py-3'>
