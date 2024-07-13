@@ -13,7 +13,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "ja_JP"
+      }
     },
     "android": {
       "adaptiveIcon": {
