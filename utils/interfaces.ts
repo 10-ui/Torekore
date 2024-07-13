@@ -4,6 +4,8 @@ interface cardBasicInfo {
   medals: string[];
   snsInfo: { name: string; src: string; userId: string; baseLink: string }[];
   fontName: string;
+  iconImage: string;
+  setIconImage: (iconImage: string) => void;
   setName: (name: string) => void;
   setDoubleName: (doubleName: string) => void;
   setMedals: (medals: string[]) => void;

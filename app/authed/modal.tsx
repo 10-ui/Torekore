@@ -14,7 +14,7 @@ export default function Modal() {
     }
   };
   return (
-    <View className='flex-1 bg-white p-20'>
+    <View className='flex-1 bg-white p-20 shadow-md'>
       <View className='flex items-center gap-4'>
         <QRCode value='https://www.jec.ac.jp' size={180} logo={appLogo} />
         <Button label='カードをシェア' className='mt-6' onPress={shareText} />

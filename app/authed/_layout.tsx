@@ -22,6 +22,13 @@ export default function TabsLayout() {
           },
         }}
       />
+      <Stack.Screen
+        name='preview'
+        options={{
+          title: "プレビュー",
+          headerBackTitle: "編集画面へ",
+        }}
+      />
     </Stack>
   );
 }

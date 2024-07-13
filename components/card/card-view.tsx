@@ -3,10 +3,25 @@ import ExpoImage from "@/components/expo-image";
 import { useCardInfoStore } from "@/utils/store";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { docking } from "@/utils/docking";
+import { usePathname } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 export default function CardView() {
-  const { backgroundImage, snsInfo, name, doubleName, medals } =
+  const { iconImage, backgroundImage, snsInfo, name, doubleName, medals } =
     useCardInfoStore();
+  const setIconImage = useCardInfoStore((state) => state.setIconImage);
+  const path = usePathname();
+  const onCropImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setIconImage(result.assets[0].uri);
+    }
+  };
   return (
     <View className='relative h-60 w-full border border-input'>
       <ExpoImage
@@ -18,8 +33,16 @@ export default function CardView() {
           <Text className='text-xl font-semibold'>{doubleName}</Text>
           <View className='mt-5 flex flex-row items-start gap-x-6'>
             <Avatar className='h-25 w-25'>
-              <AvatarImage source={require("@/assets/sample.png")} />
+              {iconImage && <AvatarImage source={iconImage} />}
+
               <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
+              {path === "/authed/editCard" && (
+                <Pressable
+                  className='absolute bottom-0 left-0 flex h-6 w-full items-center justify-center bg-white/50'
+                  onPress={onCropImage}>
+                  <Text>編集</Text>
+                </Pressable>
+              )}
             </Avatar>
             <View className='flex flex-col'>
               <View className='mb-4 flex flex-row'>
