@@ -18,7 +18,7 @@ export default function Home() {
         <Text className='pb-5 text-center text-lg font-medium'>ミッション</Text>
         {missiondata.map((item) => (
           <View
-            key={item.id}
+            key={item.title}
             className='mb-4 rounded-lg bg-white px-7 py-5 shadow-sm'>
             <View className='flex flex-row items-center justify-start gap-7'>
               <Avatar className='h-15 w-15 rounded-none'>
@@ -38,7 +38,7 @@ export default function Home() {
                 <Text className='mb-2 text-xs'>{item.description}</Text>
                 <Button
                   label='受け取る'
-                  variant={item.isComplete ? "default" : "mission"}
+                  variant={item.isCompleted ? "default" : "mission"}
                   className='w-33.5 h-8'
                 />
               </View>

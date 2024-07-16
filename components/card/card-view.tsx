@@ -1,14 +1,15 @@
 import { Text, View, Pressable, Linking } from "react-native";
 import ExpoImage from "@/components/expo-image";
-import { useCardInfoStore } from "@/utils/store";
+import { useCardInfoStore, useUserStateStore } from "@/utils/store";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { docking } from "@/utils/docking";
 import { usePathname } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 
 export default function CardView() {
-  const { iconImage, backgroundImage, snsInfo, name, doubleName, medals } =
+  const { iconImage, backgroundImage, snsInfo, name, doubleName } =
     useCardInfoStore();
+  const { missions } = useUserStateStore();
   const setIconImage = useCardInfoStore((state) => state.setIconImage);
   const path = usePathname();
   const onCropImage = async () => {
@@ -46,9 +47,16 @@ export default function CardView() {
             )}
           </Avatar>
           <View className='flex flex-col'>
-            <View className='mb-4 flex flex-row'>
+            <View className='mb-4 flex flex-row items-center gap-x-3'>
               <Text className='text-2xl'>{name}</Text>
-              <Text className='text-base font-semibold'>{medals}</Text>
+              <View className='flex flex-row gap-x-1'>
+                {missions.map((mission) =>
+                  mission.source !==
+                  require("@/assets/icons/mission/empty.png") ? (
+                    <ExpoImage source={mission.source} className='h-6 w-6' />
+                  ) : null,
+                )}
+              </View>
             </View>
             {snsInfo.map((sns, index) => (
               <View

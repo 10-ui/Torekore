@@ -1,31 +1,39 @@
 import { View, Text, Pressable } from "react-native";
-import icondata from "@/utils/data/icondata";
+import missiondata from "@/utils/data/missiondata";
 import ExpoImage from "@/components/expo-image";
-import { useCardInfoStore } from "@/utils/store";
+import { useUserStateStore } from "@/utils/store";
 
 export default function Medals() {
-  const { snsInfo } = useCardInfoStore();
-  const setSnsInfo = useCardInfoStore((state) => state.setSnsInfo);
+  const { missions } = useUserStateStore();
+  const setMissions = useUserStateStore((state) => state.setMissions);
 
   const handleIconAdd = (param: {
-    name: string;
-    src: string;
-    userId: string;
-    baseLink: string;
+    source: string;
+    title: string;
+    description: string;
+    isCompleted: boolean;
   }) => {
-    const emptyIconIndex = snsInfo.findIndex(
-      (item) => item.src === require("@/assets/logos/sns/empty.png"),
+    const existingIndex = missions.findIndex(
+      (item) => item.source === param.source,
     );
-    if (emptyIconIndex !== -1) {
-      const updatedSnsInfo = [...snsInfo];
-      updatedSnsInfo[emptyIconIndex] = {
-        ...snsInfo[emptyIconIndex],
-        name: param.name,
-        src: param.src,
-        userId: param.userId,
-        baseLink: param.baseLink,
-      };
-      setSnsInfo(updatedSnsInfo);
+
+    if (existingIndex === -1) {
+      let updatedMissions = [
+        ...missions,
+        {
+          source: param.source,
+          title: param.title,
+          description: param.description,
+          isCompleted: param.isCompleted,
+        },
+      ];
+
+      // 配列の要素数が2を超える場合、最初の要素を削除
+      if (updatedMissions.length > 2) {
+        updatedMissions = updatedMissions.slice(1);
+      }
+
+      setMissions(updatedMissions);
     }
   };
 
@@ -35,18 +43,25 @@ export default function Medals() {
         <Text className='text-base'>勲章</Text>
         <View className='flex flex-col gap-y-8'>
           <>
-            {["middle", "bottom"].map((set) => (
+            {["top", "bottom"].map((set) => (
               <View key={set} className='flex flex-row gap-x-3'>
-                {icondata
+                {missiondata
                   .filter((item) => item.set === set)
-                  .map((param) => (
+                  .map((mission) => (
                     <Pressable
-                      key={param.name}
-                      onPress={() => handleIconAdd(param)}
-                      disabled={snsInfo.some((sns) => sns.src === param.src)}>
+                      key={mission.title}
+                      onPress={() => handleIconAdd(mission)}
+                      disabled={
+                        missions.some((m) => m.source === mission.source) ||
+                        mission.isCompleted === false
+                      }>
                       <ExpoImage
-                        source={param.src}
-                        className={`h-12.5 w-12.5 ${snsInfo.some((sns) => sns.src === param.src) ? "opacity-50" : ""}`}
+                        source={
+                          mission.isCompleted
+                            ? mission.source
+                            : require("@/assets/icons/mission/empty.png")
+                        }
+                        className={`h-12.5 w-12.5 ${missions.some((m) => m.source === mission.source) ? "opacity-50" : ""}`}
                       />
                     </Pressable>
                   ))}
