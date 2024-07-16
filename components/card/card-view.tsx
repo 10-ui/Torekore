@@ -24,7 +24,11 @@ export default function CardView() {
     }
   };
   return (
-    <View className='relative h-60 w-full border border-input'>
+    <View
+      className={docking(
+        "relative h-60 w-full border border-input",
+        path === "/authed/preview" ? "border-none" : "",
+      )}>
       <ExpoImage
         source={backgroundImage}
         className='absolute left-0 top-0 -z-20 h-full w-full'
