@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Divider } from "@/components/divider";
 import ExpoImage from "@/components/expo-image";
-import { doubleNameData } from "@/utils/data/doublename";
+import doubleNameData from "@/utils/data/doublename";
 import { useCardInfoStore } from "@/utils/store";
 
 export default function DoubleName() {

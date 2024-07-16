@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
-import { icondata } from "@/utils/data/icondata";
+import icondata from "@/utils/data/icondata";
 import ExpoImage from "@/components/expo-image";
 import { useCardInfoStore } from "@/utils/store";
 

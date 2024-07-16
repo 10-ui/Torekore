@@ -4,9 +4,10 @@ import ExpoImage from "@/components/expo-image";
 import CardView from "@/components/card/card-view";
 import { Button } from "@/components/button";
 import { useCardInfoStore } from "@/utils/store";
-import { fontNameData } from "@/utils/data/fontnamedata";
-import { bgImageData } from "@/utils/data/bgimagedata";
+import fontNameData from "@/utils/data/fontnamedata";
+import bgImageData from "@/utils/data/bgimagedata";
 import { docking } from "@/utils/docking";
+import * as ImagePicker from "expo-image-picker";
 
 export default function CardStyle() {
   const { fontName, backgroundImage } = useCardInfoStore();
@@ -15,13 +16,25 @@ export default function CardStyle() {
     (state) => state.setBackgroundImage,
   );
   const [isOpened, setIsOpened] = useState(false);
+  const onCropImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setBackgroundImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <View className='w-full space-y-7'>
       <CardView />
-      <View className='h-30 mt-7 border border-input bg-white px-3 py-4'>
+      <View className='mt-7 h-30 border border-input bg-white px-3 py-4'>
         <Text className='mb-4'>背景</Text>
-        <View className='flex flex-row gap-2'>
+        <View className='flex flex-row gap-2 overflow-scroll'>
           {bgImageData.map((bgImage) => (
             <Pressable
               key={bgImage.name}
@@ -29,7 +42,7 @@ export default function CardStyle() {
               <ExpoImage
                 source={bgImage.src}
                 className={docking(
-                  "w-23 h-14 border border-input",
+                  "h-14 w-23 border border-input",
                   bgImage.src === backgroundImage
                     ? "border-2 border-appBlue"
                     : "border-input",
@@ -37,6 +50,14 @@ export default function CardStyle() {
               />
             </Pressable>
           ))}
+          <Pressable
+            onPress={onCropImage}
+            className='relative h-14 w-23 border border-input'>
+            <ExpoImage
+              source={require("@/assets/logos/camera.png")}
+              className='absolute left-[30px] top-[16px] h-5 w-5'
+            />
+          </Pressable>
         </View>
       </View>
       <View className='mt-6 flex flex-row items-start justify-between border border-input bg-white px-4 py-3'>

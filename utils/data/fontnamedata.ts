@@ -17,4 +17,4 @@ const fontNameData = [
   },
 ];
 
-export { fontNameData };
+export default fontNameData;

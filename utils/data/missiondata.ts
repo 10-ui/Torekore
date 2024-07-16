@@ -35,4 +35,4 @@ const missiondata = [
   },
 ];
 
-export { missiondata };
+export default missiondata;

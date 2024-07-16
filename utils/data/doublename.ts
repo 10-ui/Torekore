@@ -1,4 +1,4 @@
-export const doubleNameData = [
+const doubleNameData = [
   {
     left: [
       {
@@ -38,3 +38,5 @@ export const doubleNameData = [
     ],
   },
 ];
+
+export default doubleNameData;

@@ -29,4 +29,4 @@ const snsdata = [
   },
 ];
 
-export { snsdata };
+export default snsdata;

@@ -13,4 +13,4 @@ const bgImageData = [
   },
 ];
 
-export { bgImageData };
+export default bgImageData;

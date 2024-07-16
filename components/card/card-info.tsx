@@ -6,6 +6,7 @@ import { useCardInfoStore } from "@/utils/store";
 import { router } from "expo-router";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import DoubleName from "@/components/card/double-name";
+import Medals from "@/components/card/medals";
 
 export default function CardInfo() {
   const setName = useCardInfoStore((state) => state.setName);
@@ -28,6 +29,7 @@ export default function CardInfo() {
       />
       <Sns />
       <DoubleName />
+      <Medals />
       <Button
         label='保存してプレビュー'
         className='mt-6'

@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
 import { Button } from "@/components/button";
 import { router } from "expo-router";
-import { missiondata } from "@/utils/data/missiondata";
+import missiondata from "@/utils/data/missiondata";
 import { Text, View, ScrollView } from "react-native";
 import CardView from "@/components/card/card-view";
 

@@ -57,4 +57,4 @@ const icondata = [
   },
 ];
 
-export { icondata };
+export default icondata;
