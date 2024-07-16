@@ -28,8 +28,10 @@ export default function CardView() {
         source={backgroundImage}
         className='absolute left-0 top-0 -z-20 h-full w-full'
       />
-      <View className='mx-auto flex h-full w-9/12 flex-col items-center justify-center'>
-        <Text className='mr-auto text-xl font-semibold'>{doubleName}</Text>
+      <View className='mx-auto mt-4 flex h-full w-10/12 flex-col'>
+        <Text className='mr-auto text-xl font-semibold'>
+          {doubleName.replace(" ", "")}
+        </Text>
         <View className='mr-auto mt-5 flex flex-row items-start gap-x-6'>
           <Avatar className='h-25 w-25'>
             {iconImage && <AvatarImage source={iconImage} />}
@@ -55,10 +57,12 @@ export default function CardView() {
                   index !== 0 ? "mt-1.5" : "",
                   "flex flex-row items-center gap-1.5",
                 )}>
-                <ExpoImage source={sns.src} className='h-6 w-6' />
-                <Pressable
-                  onPress={() => Linking.openURL(sns.baseLink + sns.userId)}>
-                  {sns.userId && (
+                {sns.src !== require("@/assets/logos/sns/empty.png") && (
+                  <ExpoImage source={sns.src} className='h-6 w-6' />
+                )}
+                {sns.userId && (
+                  <Pressable
+                    onPress={() => Linking.openURL(sns.baseLink + sns.userId)}>
                     <Text className='text-base'>
                       @
                       {sns.name === "discord"
@@ -67,8 +71,8 @@ export default function CardView() {
                           ? sns.userId.slice(21, 35)
                           : sns.userId}
                     </Text>
-                  )}
-                </Pressable>
+                  </Pressable>
+                )}
               </View>
             ))}
           </View>

@@ -29,30 +29,9 @@ export default function Medals() {
     }
   };
 
-  const handleIconRemove = (param: {
-    name: string;
-    src: string;
-    userId: string;
-    baseLink: string;
-  }) => {
-    const updatedSnsInfo = snsInfo.map((item) => {
-      if (item.src === param.src) {
-        return {
-          ...item,
-          name: "",
-          src: require("@/assets/logos/sns/empty.png"),
-          userId: "",
-          baseLink: "",
-        };
-      }
-      return item;
-    });
-    setSnsInfo(updatedSnsInfo);
-  };
-
   return (
     <View className='mt-2 flex w-full flex-col gap-7 border border-input bg-white p-4'>
-      <View className='flex flex-row items-start justify-between'>
+      <View className='flex flex-row items-start justify-start gap-9'>
         <Text className='text-base'>勲章</Text>
         <View className='flex flex-col gap-y-8'>
           <>
