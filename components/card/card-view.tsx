@@ -53,7 +53,11 @@ export default function CardView() {
                 {missions.map((mission) =>
                   mission.source !==
                   require("@/assets/icons/mission/empty.png") ? (
-                    <ExpoImage source={mission.source} className='h-6 w-6' />
+                    <ExpoImage
+                      key={mission.title}
+                      source={mission.source}
+                      className='h-6 w-6'
+                    />
                   ) : null,
                 )}
               </View>
