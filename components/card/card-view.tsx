@@ -28,44 +28,49 @@ export default function CardView() {
         source={backgroundImage}
         className='absolute left-0 top-0 -z-20 h-full w-full'
       />
-      <View className='flex h-full w-full flex-col items-center justify-center'>
-        <View>
-          <Text className='text-xl font-semibold'>{doubleName}</Text>
-          <View className='mt-5 flex flex-row items-start gap-x-6'>
-            <Avatar className='h-25 w-25'>
-              {iconImage && <AvatarImage source={iconImage} />}
+      <View className='mx-auto flex h-full w-9/12 flex-col items-center justify-center'>
+        <Text className='mr-auto text-xl font-semibold'>{doubleName}</Text>
+        <View className='mr-auto mt-5 flex flex-row items-start gap-x-6'>
+          <Avatar className='h-25 w-25'>
+            {iconImage && <AvatarImage source={iconImage} />}
 
-              <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
-              {path === "/authed/editCard" && (
-                <Pressable
-                  className='absolute bottom-0 left-0 flex h-6 w-full items-center justify-center bg-white/50'
-                  onPress={onCropImage}>
-                  <Text>編集</Text>
-                </Pressable>
-              )}
-            </Avatar>
-            <View className='flex flex-col'>
-              <View className='mb-4 flex flex-row'>
-                <Text className='text-2xl'>{name}</Text>
-                <Text className='text-base font-semibold'>{medals}</Text>
-              </View>
-              {snsInfo.map((sns, index) => (
-                <View
-                  key={index}
-                  className={docking(
-                    index !== 0 ? "mt-2" : "",
-                    "flex flex-row items-center gap-2",
-                  )}>
-                  <ExpoImage source={sns.src} className='h-6 w-6' />
-                  <Pressable
-                    onPress={() => Linking.openURL(sns.baseLink + sns.userId)}>
-                    {sns.userId && (
-                      <Text className='text-base'>@{sns.userId}</Text>
-                    )}
-                  </Pressable>
-                </View>
-              ))}
+            <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
+            {path === "/authed/editCard" && (
+              <Pressable
+                className='absolute bottom-0 left-0 flex h-6 w-full items-center justify-center bg-white/50'
+                onPress={onCropImage}>
+                <Text>編集</Text>
+              </Pressable>
+            )}
+          </Avatar>
+          <View className='flex flex-col'>
+            <View className='mb-4 flex flex-row'>
+              <Text className='text-2xl'>{name}</Text>
+              <Text className='text-base font-semibold'>{medals}</Text>
             </View>
+            {snsInfo.map((sns, index) => (
+              <View
+                key={index}
+                className={docking(
+                  index !== 0 ? "mt-1.5" : "",
+                  "flex flex-row items-center gap-1.5",
+                )}>
+                <ExpoImage source={sns.src} className='h-6 w-6' />
+                <Pressable
+                  onPress={() => Linking.openURL(sns.baseLink + sns.userId)}>
+                  {sns.userId && (
+                    <Text className='text-base'>
+                      @
+                      {sns.name === "discord"
+                        ? sns.userId.slice(19, 30)
+                        : sns.name === "line"
+                          ? sns.userId.slice(21, 35)
+                          : sns.userId}
+                    </Text>
+                  )}
+                </Pressable>
+              </View>
+            ))}
           </View>
         </View>
       </View>

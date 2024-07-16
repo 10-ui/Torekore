@@ -5,11 +5,13 @@ import { Button } from "@/components/button";
 import icondata from "@/utils/data/icondata";
 import ExpoImage from "@/components/expo-image";
 import { useCardInfoStore } from "@/utils/store";
+import { docking } from "@/utils/docking";
 
 export default function Sns() {
   const [isOpened, setIsOpened] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentBaseLink, setCurrentBaseLink] = useState("");
+  const [currentName, setCurrentName] = useState("");
   const [currentUserId, setCurrentUserId] = useState("");
   const { snsInfo } = useCardInfoStore();
   const setSnsInfo = useCardInfoStore((state) => state.setSnsInfo);
@@ -65,12 +67,13 @@ export default function Sns() {
   }) => {
     setIsModalVisible(true);
     setCurrentBaseLink(param.baseLink);
+    setCurrentName(param.name);
     setCurrentUserId(param.userId);
   };
 
   const saveId = () => {
     const updatedSnsId = snsInfo.map((item) => {
-      if (item.baseLink === currentBaseLink) {
+      if (item.name === currentName) {
         return { ...item, userId: currentUserId };
       }
       return item;
@@ -104,7 +107,10 @@ export default function Sns() {
                   )}
                 <Pressable
                   onPress={() => openSetIdModal(item)}
-                  disabled={!isOpened}>
+                  disabled={
+                    !isOpened ||
+                    item.src === require("@/assets/logos/sns/empty.png")
+                  }>
                   <ExpoImage source={item.src} className='h-12.5 w-12.5' />
                 </Pressable>
               </View>
@@ -132,7 +138,10 @@ export default function Sns() {
             </>
           )}
         </View>
-        <Pressable onPress={() => setIsOpened(!isOpened)} className='mt-[15px]'>
+        <Pressable
+          onPress={() => setIsOpened(!isOpened)}
+          className='mt-[15px] disabled:opacity-50'
+          disabled={isModalVisible}>
           <ExpoImage
             source={
               isOpened
@@ -152,8 +161,10 @@ export default function Sns() {
               value={currentUserId}
               onChangeText={setCurrentUserId}
               placeholder='@accountID'
-              className='h-8'
-              containerClasses='w-36'
+              className='h-8 px-3 py-1'
+              containerClasses={docking(
+                currentBaseLink === "" ? "w-9/12" : "w-36",
+              )}
             />
           </View>
           <Button

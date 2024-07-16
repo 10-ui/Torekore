@@ -7,7 +7,7 @@ const useCardInfoStore = create<cardInfo>()((set) => ({
   selectedIcons: Array(4).fill(require("@/assets/logos/sns/empty.png")),
   medals: [],
   backgroundImage: require("@/assets/background/bg_blue.png"),
-  iconImage: require("@/assets/sample.png"),
+  iconImage: "",
   snsInfo: Array(4).fill({
     name: "",
     src: require("@/assets/logos/sns/empty.png"),
