@@ -8,6 +8,7 @@ import fontNameData from "@/utils/data/fontnamedata";
 import bgImageData from "@/utils/data/bgimagedata";
 import { docking } from "@/utils/docking";
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 
 export default function CardStyle() {
   const { fontName, backgroundImage } = useCardInfoStore();
@@ -108,7 +109,11 @@ export default function CardStyle() {
           )}
         </View>
       </View>
-      <Button label='保存してプレビュー' className='mt-6' />
+      <Button
+        label='保存してプレビュー'
+        className='mt-6'
+        onPress={() => router.push("/authed/preview")}
+      />
     </View>
   );
 }
