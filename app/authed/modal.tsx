@@ -42,7 +42,9 @@ export default function Modal() {
   return (
     <View className='flex-1 bg-white p-20 shadow-md'>
       <View className='flex items-center gap-4'>
-        <QRCode value={uniqueID} size={180} logo={appLogo} />
+        <ViewShot ref={viewShot}>
+          <QRCode value={uniqueID} size={180} logo={appLogo} />
+        </ViewShot>
         <View className='my-10 flex flex-row items-center justify-center gap-15'>
           <Pressable className='flex items-center gap-1' onPress={shareQrcode}>
             <ExpoImage
