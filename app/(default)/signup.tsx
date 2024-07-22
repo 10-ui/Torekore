@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import ExpoImage from "@/components/expo-image";
 import { Divider } from "@/components/divider";
 import { Link } from "expo-router";
+import { supabase } from "@/utils/supabase";
+import { router } from "expo-router";
 
 export default function Signup() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignup = async () => {
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      console.log(error);
+    } else {
+      router.replace("/authed");
+    }
+  };
   return (
     <KeyboardAvoidingView
       behavior='position'
@@ -23,6 +36,8 @@ export default function Signup() {
           label='ログインID (メールアドレス)'
           placeholder='example@mail.com'
           className='mb-4'
+          value={email}
+          onChangeText={setEmail}
         />
         <Input
           textContentType='password'
@@ -35,8 +50,10 @@ export default function Signup() {
           }
           sourceOnPress={() => setIsPasswordVisible(!isPasswordVisible)}
           secureTextEntry={isPasswordVisible}
+          value={password}
+          onChangeText={setPassword}
         />
-        <Button label='登録' className='mt-9' />
+        <Button label='登録' className='mt-9' onPress={handleSignup} />
         <Divider className='my-9' />
         <Button
           label='googleで連携'

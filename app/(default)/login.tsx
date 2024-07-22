@@ -5,10 +5,26 @@ import { KeyboardAvoidingView, View } from "react-native";
 import { useState } from "react";
 import { Divider } from "@/components/divider";
 import ExpoImage from "@/components/expo-image";
+import { supabase } from "@/utils/supabase";
 
 export default function Login() {
   const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      console.log(error);
+    } else {
+      router.replace("/authed");
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior='position'
@@ -24,6 +40,8 @@ export default function Login() {
           label='ログインID (メールアドレス)'
           placeholder='example@mail.com'
           className='mb-4'
+          value={email}
+          onChangeText={setEmail}
         />
         <Input
           textContentType='password'
@@ -36,12 +54,10 @@ export default function Login() {
           }
           sourceOnPress={() => setIsPasswordVisible(!isPasswordVisible)}
           secureTextEntry={isPasswordVisible}
+          value={password}
+          onChangeText={setPassword}
         />
-        <Button
-          label='ログイン'
-          onPress={() => router.push("/authed/")}
-          className='mt-8'
-        />
+        <Button label='ログイン' onPress={handleLogin} className='mt-8' />
         <Divider className='my-9' />
         <Button
           label='初めて利用の方はこちら'
