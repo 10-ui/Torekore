@@ -14,13 +14,14 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) {
       console.log(error);
     } else {
+      console.log(data);
       router.replace("/authed");
     }
   };

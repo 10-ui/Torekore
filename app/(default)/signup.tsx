@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import ExpoImage from "@/components/expo-image";
 import { Divider } from "@/components/divider";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { supabase } from "@/utils/supabase";
-import { router } from "expo-router";
 
 export default function Signup() {
-  const [isPasswordVisible, setIsPasswordVisible] = React.useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignup = async () => {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
     if (error) {
       console.log(error);
     } else {
-      router.replace("/authed");
+      console.log(data);
+      router.replace("/login");
     }
   };
   return (
