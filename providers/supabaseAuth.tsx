@@ -5,7 +5,7 @@ import React, {
   PropsWithChildren,
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
-import { supabase } from "../utils/supabase";
+import { supabase } from "@/utils/supabase";
 
 type AuthProps = {
   user: User | null;

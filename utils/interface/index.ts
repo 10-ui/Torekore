@@ -24,12 +24,12 @@ interface SetCardTextInfo {
 
 interface CardImageInfo {
   backgroundImage: string;
-  iconImage: string;
+  avatarUrl: string;
 }
 
 interface SetCardImageInfo {
   setBackgroundImage: (backgroundImage: string) => void;
-  setIconImage: (iconImage: string) => void;
+  setAvatarUrl: (avatarUrl: string) => void;
 }
 
 interface CardPropaty extends CardTextInfo {

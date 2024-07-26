@@ -1,23 +1,18 @@
 import { View, Share, Pressable, Text, Alert } from "react-native";
-import React, { useCallback, useRef, useEffect, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import ViewShot, { captureRef } from "react-native-view-shot";
 import * as MediaLibrary from "expo-media-library";
 import QRCode from "react-native-qrcode-svg";
 import ExpoImage from "@/components/expo-image";
-import { useUserStateStore } from "@/utils/store";
+import { useCardInfoStore } from "@/utils/store";
 import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
 export default function Modal() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const { uniqueID } = useUserStateStore();
-  const setUniqueID = useUserStateStore((state) => state.setUniqueID);
+  const { uniqueID } = useCardInfoStore();
+  const setUniqueID = useCardInfoStore((state) => state.setUniqueID);
   const appLogo = require("@/assets/icon_rounded.png");
   const viewShot = useRef<ViewShot>(null);
-  useEffect(() => {
-    setUniqueID(nanoid(10));
-    setIsLoaded(true);
-  }, []);
   const capture = useCallback(async () => {
     try {
       const uri = captureRef(viewShot);
@@ -38,7 +33,6 @@ export default function Modal() {
       console.error("Error sharing:", error.message);
     }
   }, []);
-  if (!isLoaded) return null;
   return (
     <View className='flex-1 bg-white p-20 shadow-md'>
       <View className='flex items-center gap-4'>

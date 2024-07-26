@@ -10,7 +10,7 @@ export default function App() {
   useEffect(() => {
     setIsMounted(true);
     if (isMounted) {
-      router.replace(session ? "/" : "/login");
+      router.replace(session ? "/authed" : "/login");
     }
   }, [isMounted]);
 

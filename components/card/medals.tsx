@@ -8,6 +8,7 @@ export default function Medals() {
   const setMissions = useUserStateStore((state) => state.setMissions);
 
   const handleIconAdd = (param: {
+    id: number;
     source: string;
     title: string;
     description: string;
@@ -21,6 +22,7 @@ export default function Medals() {
       let updatedMissions = [
         ...missions,
         {
+          id: param.id,
           source: param.source,
           title: param.title,
           description: param.description,

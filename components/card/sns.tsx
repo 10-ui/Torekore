@@ -16,21 +16,16 @@ export default function Sns() {
   const { snsInfo } = useCardInfoStore();
   const setSnsInfo = useCardInfoStore((state) => state.setSnsInfo);
 
-  const handleIconAdd = (param: {
-    name: string;
-    src: string;
-    userId: string;
-    baseLink: string;
-  }) => {
+  const handleIconAdd = (param: (typeof snsInfo)[number]) => {
     const emptyIconIndex = snsInfo.findIndex(
-      (item) => item.src === require("@/assets/logos/sns/empty.png"),
+      (item) => item.source === require("@/assets/logos/sns/empty.png"),
     );
     if (emptyIconIndex !== -1) {
       const updatedSnsInfo = [...snsInfo];
       updatedSnsInfo[emptyIconIndex] = {
         ...snsInfo[emptyIconIndex],
         name: param.name,
-        src: param.src,
+        source: param.source,
         userId: param.userId,
         baseLink: param.baseLink,
       };
@@ -38,18 +33,13 @@ export default function Sns() {
     }
   };
 
-  const handleIconRemove = (param: {
-    name: string;
-    src: string;
-    userId: string;
-    baseLink: string;
-  }) => {
+  const handleIconRemove = (param: (typeof snsInfo)[number]) => {
     const updatedSnsInfo = snsInfo.map((item) => {
-      if (item.src === param.src) {
+      if (item.source === param.source) {
         return {
           ...item,
           name: "",
-          src: require("@/assets/logos/sns/empty.png"),
+          source: require("@/assets/logos/sns/empty.png"),
           userId: "",
           baseLink: "",
         };
@@ -59,12 +49,7 @@ export default function Sns() {
     setSnsInfo(updatedSnsInfo);
   };
 
-  const openSetIdModal = (param: {
-    name: string;
-    src: string;
-    userId: string;
-    baseLink: string;
-  }) => {
+  const openSetIdModal = (param: (typeof snsInfo)[number]) => {
     setIsModalVisible(true);
     setCurrentBaseLink(param.baseLink);
     setCurrentName(param.name);
@@ -90,7 +75,7 @@ export default function Sns() {
           <View className='flex flex-row gap-x-3'>
             {snsInfo.map((item, index) => (
               <View key={index} className='relative'>
-                {item.src !== require("@/assets/logos/sns/empty.png") &&
+                {item.source !== require("@/assets/logos/sns/empty.png") &&
                   isOpened && (
                     <Pressable
                       className='absolute right-0 top-0 z-10'
@@ -109,9 +94,9 @@ export default function Sns() {
                   onPress={() => openSetIdModal(item)}
                   disabled={
                     !isOpened ||
-                    item.src === require("@/assets/logos/sns/empty.png")
+                    item.source === require("@/assets/logos/sns/empty.png")
                   }>
-                  <ExpoImage source={item.src} className='h-12.5 w-12.5' />
+                  <ExpoImage source={item.source} className='h-12.5 w-12.5' />
                 </Pressable>
               </View>
             ))}
@@ -126,10 +111,16 @@ export default function Sns() {
                       <Pressable
                         key={param.name}
                         onPress={() => handleIconAdd(param)}
-                        disabled={snsInfo.some((sns) => sns.src === param.src)}>
+                        disabled={snsInfo.some(
+                          (sns) => sns.source === param.source,
+                        )}>
                         <ExpoImage
-                          source={param.src}
-                          className={`h-12.5 w-12.5 ${snsInfo.some((sns) => sns.src === param.src) ? "opacity-50" : ""}`}
+                          source={param.source}
+                          className={`h-12.5 w-12.5 ${
+                            snsInfo.some((sns) => sns.source === param.source)
+                              ? "opacity-50"
+                              : ""
+                          }`}
                         />
                       </Pressable>
                     ))}

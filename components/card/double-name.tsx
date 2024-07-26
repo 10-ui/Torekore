@@ -78,7 +78,6 @@ export default function DoubleName() {
       setSelectedRight(selectedItem.name);
     }
   };
-
   return (
     <View className='mt-2 flex w-full flex-col gap-7 border border-input bg-white py-4 pl-3 pr-2'>
       <View className='flex flex-row items-start justify-between'>

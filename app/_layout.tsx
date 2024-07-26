@@ -1,25 +1,38 @@
+import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
-import { Slot } from "expo-router";
-import { supabase } from "@/utils/supabase";
-import { useAppStateStore } from "@/utils/store";
+import { AuthProvider, useAuth } from "@/providers/supabaseAuth";
 import "@/styles/global.css";
 
 const InitialLayout = () => {
-  const setSession = useAppStateStore((state) => state.setSession);
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+  const { session, initialized } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
+  useEffect(() => {
+    if (!initialized) return;
+
+    // Check if the path/url is in the (auth) group
+    const inAuthGroup = segments[0] === "(auth)";
+
+    if (session && !inAuthGroup) {
+      // Redirect authenticated users to the list page
+      router.replace("/authed");
+    } else if (!session) {
+      // Redirect unauthenticated users to the login page
+      router.replace("/");
+    }
+  }, [session, initialized]);
+
   return <Slot />;
 };
 
+// Wrap the app with the AuthProvider
 const RootLayout = () => {
-  return <InitialLayout />;
+  return (
+    <AuthProvider>
+      <InitialLayout />
+    </AuthProvider>
+  );
 };
 
 export default RootLayout;

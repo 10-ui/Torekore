@@ -20,12 +20,12 @@ const useCardInfoStore = create<CardInfo>()((set) => ({
   name: "",
   doubleName: "",
   backgroundImage: "",
-  iconImage: "",
+  avatarUrl: "",
   snsInfo: [],
   fontName: "",
   uniqueID: "",
   setUniqueID: (uniqueID: string) => set({ uniqueID }),
-  setIconImage: (iconImage) => set({ iconImage }),
+  setAvatarUrl: (avatarUrl) => set({ avatarUrl }),
   setSnsInfo: (snsInfo) => set({ snsInfo }),
   setName: (name) => set({ name }),
   setDoubleName: (doubleName) => set({ doubleName }),
@@ -42,7 +42,7 @@ const useCardInfoStore = create<CardInfo>()((set) => ({
   setAllImageInfo: (cardImageInfo: CardImageInfo) =>
     set({
       backgroundImage: cardImageInfo.backgroundImage,
-      iconImage: cardImageInfo.iconImage,
+      avatarUrl: cardImageInfo.avatarUrl,
     }),
 }));
 
