@@ -28,6 +28,7 @@
     "expo-linking": "~6.3.1",
     "expo-media-library": "~16.0.4",
     "expo-router": "~3.5.18",
+    "expo-sqlite": "^14.0.5",
     "expo-status-bar": "~1.12.1",
     "nanoid": "^5.0.7",
     "nativewind": "^4.0.36",
@@ -51,7 +52,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
-    "tailwindcss": "^3.4.6",
+    "tailwindcss": "^3.4.7",
     "typescript": "~5.3.3"
   },
   "private": true
