@@ -28,12 +28,10 @@ export default function AuthedLayout() {
           .single();
 
         if (error && error.code !== "PGRST116") {
-          // PGRST116はデータが見つからない場合のエラーコードです
           throw error;
         }
 
         if (data) {
-          // 既存のデータ処理ロジック
           const {
             name,
             double_name,
@@ -44,7 +42,16 @@ export default function AuthedLayout() {
             avatar_url,
           } = data;
 
-          const processedSNSInfo = sns.map((snsItem: any) => {
+          // SNSデータを更新日時でソートし、最大4つまで取得
+          const sortedSNS = sns
+            .sort(
+              (a: any, b: any) =>
+                new Date(b.updated_at).getTime() -
+                new Date(a.updated_at).getTime(),
+            )
+            .slice(0, 4);
+
+          const processedSNSInfo = sortedSNS.map((snsItem: any) => {
             const iconInfo = icondata.find(
               (icon) => icon.name === snsItem.sns_id,
             );
