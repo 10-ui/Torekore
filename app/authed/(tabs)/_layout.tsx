@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCardInfoStore } from "@/utils/store";
 import icondata from "@/utils/data/icondata";
+import bgImageData from "@/utils/data/bgimagedata";
 
 export default function AuthedLayout() {
   const { signOut, session } = useAuth();
@@ -63,6 +64,9 @@ export default function AuthedLayout() {
             }),
           ];
 
+          const defaultBackgroundUrl = "bg_mayuka";
+          let backgroundImage = background_url || defaultBackgroundUrl;
+
           setAllCardInfo({
             name: name ?? "",
             doubleName: double_name ?? "",
@@ -71,10 +75,7 @@ export default function AuthedLayout() {
             snsInfo: filledSNSInfo,
           });
           setAllImageInfo({
-            backgroundImage:
-              background_url === ""
-                ? require("@/assets/background/bg_mayuka.png")
-                : background_url,
+            backgroundImage: bgImageData.find((bgImage) => bgImage.url === backgroundImage)?.src || bgImageData[0].src,
             avatarUrl: avatar_url === "" ? "" : avatar_url,
           });
         }

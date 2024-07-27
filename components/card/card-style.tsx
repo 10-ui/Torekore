@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Text, View, Pressable, Alert, ActivityIndicator } from "react-native";
+import {
+  Text,
+  View,
+  Pressable,
+  Alert,
+  ActivityIndicator,
+  ImageSourcePropType,
+} from "react-native";
 import ExpoImage from "@/components/expo-image";
 import CardView from "@/components/card/card-view";
 import { Button } from "@/components/button";
@@ -14,6 +21,12 @@ import { nanoid } from "nanoid";
 import { useAuth } from "@/providers/supabaseAuth";
 import * as FileSystem from "expo-file-system";
 import { handleSave } from "@/utils/handleSave";
+
+type BGImage = {
+  name: string;
+  src: string;
+  url: string;
+};
 
 export default function CardStyle() {
   const { fontName, backgroundImage } = useCardInfoStore();
@@ -114,21 +127,46 @@ export default function CardStyle() {
     return bytes;
   }
 
+  const handleBackgroundSelect = async (bgImage: BGImage) => {
+    if (!session?.user?.id) {
+      Alert.alert("エラー", "ユーザーが認証されていません。");
+      return;
+    }
+
+    try {
+      const { error: upsertError } = await supabase
+        .from("cards")
+        .update({ background_url: bgImage.url })
+        .eq("author_id", session.user.id);
+
+      if (upsertError) {
+        throw upsertError;
+      }
+
+      setBackgroundImage(bgImage.src);
+    } catch (error) {
+      Alert.alert(
+        "エラー",
+        `背景画像の設定に失敗しました: ${error || "不明なエラー"}`,
+      );
+    }
+  };
+
   return (
     <View className='w-full space-y-7'>
       <CardView />
       <View className='mt-7 h-30 border border-input bg-white px-3 py-4'>
         <Text className='mb-4'>背景</Text>
         <View className='flex flex-row gap-2 overflow-scroll'>
-          {bgImageData.map((bgImage) => (
+          {bgImageData.map((bgImage: BGImage) => (
             <Pressable
               key={bgImage.name}
-              onPress={() => setBackgroundImage(bgImage.src)}>
+              onPress={() => handleBackgroundSelect(bgImage)}>
               <ExpoImage
                 source={bgImage.src}
                 className={docking(
                   "h-14 w-23 border border-input",
-                  bgImage.src === backgroundImage
+                  bgImage.url === backgroundImage
                     ? "border-2 border-appBlue"
                     : "border-input",
                 )}

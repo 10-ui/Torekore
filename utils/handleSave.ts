@@ -4,15 +4,8 @@ import { supabase } from "@/utils/supabase";
 import { useCardInfoStore } from "@/utils/store";
 
 export const handleSave = async (session: any) => {
-  const {
-    name,
-    doubleName,
-    fontName,
-    snsInfo,
-    uniqueID,
-    avatarUrl,
-    backgroundImage,
-  } = useCardInfoStore.getState();
+  const { name, doubleName, fontName, snsInfo, uniqueID, avatarUrl } =
+    useCardInfoStore.getState();
 
   try {
     if (!session?.user?.id) {
@@ -53,7 +46,6 @@ export const handleSave = async (session: any) => {
           font_name: fontName,
           unique_id: uniqueID,
           avatar_url: avatarUrl,
-          background_url: backgroundImage,
           author_id: session?.user?.id,
           updated_at: new Date().toISOString(),
         },
