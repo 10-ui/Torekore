@@ -1,28 +1,41 @@
-import { View, Share, Pressable, Text, Alert } from "react-native";
+import "react-native-get-random-values";
+import { nanoid } from "nanoid";
+import {
+  View,
+  Share,
+  Pressable,
+  Text,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import React, { useCallback, useRef, useState } from "react";
 import ViewShot, { captureRef } from "react-native-view-shot";
 import * as MediaLibrary from "expo-media-library";
 import QRCode from "react-native-qrcode-svg";
 import ExpoImage from "@/components/expo-image";
 import { useCardInfoStore } from "@/utils/store";
-import "react-native-get-random-values";
-import { nanoid } from "nanoid";
+import { supabase } from "@/utils/supabase";
+import { useAuth } from "@/providers/supabaseAuth";
 
 export default function Modal() {
   const { uniqueID } = useCardInfoStore();
   const setUniqueID = useCardInfoStore((state) => state.setUniqueID);
+  const { session } = useAuth();
+  const [loading, setLoading] = useState(false);
   const appLogo = require("@/assets/icon_rounded.png");
   const viewShot = useRef<ViewShot>(null);
+
   const capture = useCallback(async () => {
     try {
-      const uri = captureRef(viewShot);
-      MediaLibrary.saveToLibraryAsync(await uri);
+      const uri = await captureRef(viewShot);
+      await MediaLibrary.saveToLibraryAsync(uri);
       console.log(uri);
       Alert.alert("画像の保存完了");
     } catch (error) {
       console.error(error);
     }
   }, []);
+
   const shareQrcode = useCallback(async () => {
     try {
       const uri: string = await captureRef(viewShot);
@@ -33,6 +46,30 @@ export default function Modal() {
       console.error("Error sharing:", error.message);
     }
   }, []);
+
+  const updateUniqueID = useCallback(async () => {
+    setLoading(true);
+    try {
+      const newUniqueID = nanoid(10);
+
+      const { error } = await supabase
+        .from("cards")
+        .update({ unique_id: newUniqueID })
+        .eq("author_id", session!.user.id);
+
+      if (error) {
+        throw error;
+      }
+
+      setUniqueID(newUniqueID);
+    } catch (error) {
+      console.error("Error updating uniqueID:", error);
+      Alert.alert("エラー", "ユニークIDの更新に失敗しました。");
+    } finally {
+      setLoading(false);
+    }
+  }, [session, setUniqueID]);
+
   return (
     <View className='flex-1 bg-white p-20 shadow-md'>
       <View className='flex items-center gap-4'>
@@ -57,12 +94,16 @@ export default function Modal() {
         </View>
         <Pressable
           className='mt-10 flex flex-row items-center gap-1 rounded-lg border border-input px-4 py-2'
-          onPress={() => setUniqueID(nanoid(10))}>
+          onPress={updateUniqueID}>
           <ExpoImage
             source={require("@/assets/icons/share/reload.svg")}
             className='h-4 w-4'
           />
-          <Text className='text-lg'>更新</Text>
+          {loading ? (
+            <ActivityIndicator size='small' color='#000' />
+          ) : (
+            <Text className='text-lg'>更新</Text>
+          )}
         </Pressable>
       </View>
     </View>
