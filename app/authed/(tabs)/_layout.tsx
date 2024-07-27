@@ -9,6 +9,7 @@ import { useAuth } from "@/providers/supabaseAuth";
 import { useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import { useCardInfoStore } from "@/utils/store";
+import icondata from "@/utils/data/icondata";
 
 export default function AuthedLayout() {
   const { signOut, session } = useAuth();
@@ -21,25 +22,60 @@ export default function AuthedLayout() {
       try {
         const { data, error } = await supabase
           .from("cards")
-          .select("*")
+          .select("*, sns(*)")
           .eq("author_id", session.user.id)
           .single();
 
         if (error) throw error;
         if (data) {
           console.log(data);
-          const { name, double_name, font_name, unique_id } = data;
-          setAllCardInfo({
-            name: name ? name : "",
-            doubleName: double_name ? double_name : "",
-            fontName: font_name ? font_name : "",
-            uniqueID: unique_id === "" ? nanoid(10) : unique_id,
-            snsInfo: Array(4).fill({
+          const {
+            name,
+            double_name,
+            font_name,
+            unique_id,
+            sns,
+            background_url,
+            avatar_url,
+          } = data;
+
+          const processedSNSInfo = sns.map((snsItem: any) => {
+            const iconInfo = icondata.find(
+              (icon) => icon.name === snsItem.sns_id,
+            );
+            return {
+              name: snsItem.sns_id,
+              source: iconInfo
+                ? iconInfo.source
+                : require("@/assets/logos/sns/empty.png"),
+              userId: snsItem.user_id,
+              baseLink: iconInfo ? iconInfo.baseLink : "",
+            };
+          });
+
+          const filledSNSInfo = [
+            ...processedSNSInfo,
+            ...Array(Math.max(0, 4 - processedSNSInfo.length)).fill({
               name: "",
               source: require("@/assets/logos/sns/empty.png"),
               userId: "",
               baseLink: "",
             }),
+          ];
+
+          setAllCardInfo({
+            name: name ?? "",
+            doubleName: double_name ?? "",
+            fontName: font_name ?? "",
+            uniqueID: unique_id === "" ? nanoid(10) : unique_id,
+            snsInfo: filledSNSInfo,
+          });
+          setAllImageInfo({
+            backgroundImage:
+              background_url === ""
+                ? require("@/assets/background/bg_mayuka.png")
+                : background_url,
+            avatarUrl: avatar_url === "" ? "" : avatar_url,
           });
         }
       } catch (error) {

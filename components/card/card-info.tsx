@@ -16,7 +16,6 @@ export default function CardInfo() {
     useCardInfoStore();
   const { session } = useAuth();
   const setName = useCardInfoStore((state) => state.setName);
-  console.log(snsInfo);
 
   const handleSave = async () => {
     try {
@@ -24,15 +23,19 @@ export default function CardInfo() {
         throw new Error("ユーザーが認証されていません。");
       }
 
+      const validSnsData = snsInfo.filter(
+        (sns) => sns.name !== "" && sns.userId !== "",
+      );
+
       const { data: snsData, error: snsError } = await supabase
         .from("sns")
         .upsert(
-          {
+          validSnsData.map((sns) => ({
             author_id: session.user.id,
-            sns_id: "twitter",
-            user_id: "sen._.ssssp",
+            sns_id: sns.name,
+            user_id: sns.userId,
             updated_at: new Date().toISOString(),
-          },
+          })),
           {
             onConflict: "author_id,sns_id",
           },
