@@ -27,9 +27,13 @@ export default function AuthedLayout() {
           .eq("author_id", session.user.id)
           .single();
 
-        if (error) throw error;
+        if (error && error.code !== "PGRST116") {
+          // PGRST116はデータが見つからない場合のエラーコードです
+          throw error;
+        }
+
         if (data) {
-          console.log(data);
+          // 既存のデータ処理ロジック
           const {
             name,
             double_name,
@@ -75,12 +79,55 @@ export default function AuthedLayout() {
             snsInfo: filledSNSInfo,
           });
           setAllImageInfo({
-            backgroundImage: bgImageData.find((bgImage) => bgImage.url === backgroundImage)?.src || bgImageData[0].src,
+            backgroundImage:
+              bgImageData.find((bgImage) => bgImage.url === backgroundImage)
+                ?.src || bgImageData[0].src,
             avatarUrl: avatar_url === "" ? "" : avatar_url,
+          });
+        } else {
+          // データが存在しない場合、初期値を挿入
+          const initialData = {
+            author_id: session.user.id,
+            name: "",
+            double_name: "",
+            font_name: "Noto Sans JP",
+            unique_id: nanoid(10),
+            background_url: "bg_mayuka",
+            avatar_url: "",
+          };
+
+          const { error: insertError } = await supabase
+            .from("cards")
+            .insert(initialData);
+
+          if (insertError) throw insertError;
+
+          // 初期SNS情報
+          const initialSNSInfo = Array(4).fill({
+            name: "",
+            source: require("@/assets/logos/sns/empty.png"),
+            userId: "",
+            baseLink: "",
+          });
+
+          setAllCardInfo({
+            name: initialData.name,
+            doubleName: initialData.double_name,
+            fontName: initialData.font_name,
+            uniqueID: initialData.unique_id,
+            snsInfo: initialSNSInfo,
+          });
+
+          setAllImageInfo({
+            backgroundImage:
+              bgImageData.find(
+                (bgImage) => bgImage.url === initialData.background_url,
+              )?.src || bgImageData[0].src,
+            avatarUrl: initialData.avatar_url,
           });
         }
       } catch (error) {
-        console.error("ユーザーデータの取得に失敗しました:", error);
+        console.error("ユーザーデータの取得または初期化に失敗しました:", error);
       }
     };
 

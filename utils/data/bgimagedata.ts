@@ -14,6 +14,11 @@ const bgImageData = [
     src: require("@/assets/background/bg_yellow.png"),
     url: "bg_yellow",
   },
+  {
+    name: "bg_mayuka",
+    src: require("@/assets/background/bg_mayuka.png"),
+    url: "bg_mayuka",
+  },
 ];
 
 export default bgImageData;
