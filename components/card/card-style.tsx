@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Text,
-  View,
-  Pressable,
-  Alert,
-  ActivityIndicator,
-  ImageSourcePropType,
-} from "react-native";
+import { Text, View, Pressable, Alert, ActivityIndicator } from "react-native";
 import ExpoImage from "@/components/expo-image";
 import CardView from "@/components/card/card-view";
 import { Button } from "@/components/button";
