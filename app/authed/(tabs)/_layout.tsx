@@ -8,13 +8,16 @@ import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { useAuth } from "@/providers/supabaseAuth";
 import { useEffect } from "react";
 import { supabase } from "@/utils/supabase";
-import { useCardInfoStore } from "@/utils/store";
+import { useCardInfoStore, useUserStateStore } from "@/utils/store";
 import icondata from "@/utils/data/icondata";
 import bgImageData from "@/utils/data/bgimagedata";
+import missiondata from "@/utils/data/missiondata";
+import { Mission } from "@/utils/interface";
 
 export default function AuthedLayout() {
   const { signOut, session } = useAuth();
   const { setAllCardInfo, setAllImageInfo } = useCardInfoStore();
+  const { setMissions } = useUserStateStore();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -136,6 +139,52 @@ export default function AuthedLayout() {
             avatarUrl: initialData.avatar_url,
           });
         }
+
+        // メダル情報の取得
+        const { data: medalsData, error: medalsError } = await supabase
+          .from("medals")
+          .select("*")
+          .eq("author_id", session.user.id);
+
+        if (medalsError) throw medalsError;
+
+        // ミッション情報の設定（最大2つまで）
+        const completedMissions =
+          medalsData?.filter((m) => m.is_completed).slice(0, 2) || [];
+
+        const updatedMissions: Mission[] = missiondata.map((mission) => {
+          const completedMission = completedMissions.find(
+            (m) => m.medal_id === mission.title,
+          );
+          return {
+            ...mission,
+            isCompleted: !!completedMission,
+            source: completedMission
+              ? mission.source
+              : require("@/assets/icons/mission/empty.png"),
+          };
+        });
+
+        // 完了したミッションを先頭に、未完了のミッションを後ろに配置
+        updatedMissions.sort((a, b) => {
+          if (a.isCompleted && !b.isCompleted) return -1;
+          if (!a.isCompleted && b.isCompleted) return 1;
+          return 0;
+        });
+
+        // 最大2つのミッションを設定し、不足分はempty.pngで埋める
+        const missionsToSet = updatedMissions.slice(0, 2);
+        while (missionsToSet.length < 2) {
+          missionsToSet.push({
+            id: 0,
+            title: "",
+            description: "",
+            source: require("@/assets/icons/mission/empty.png"),
+            isCompleted: false,
+          });
+        }
+
+        setMissions(missionsToSet);
       } catch (error) {
         console.error("ユーザーデータの取得または初期化に失敗しました:", error);
       }

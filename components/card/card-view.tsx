@@ -18,6 +18,14 @@ import { useAuth } from "@/providers/supabaseAuth";
 import { nanoid } from "nanoid";
 import * as FileSystem from "expo-file-system";
 import * as ImageManipulator from "expo-image-manipulator";
+import bgImageData from "@/utils/data/bgimagedata";
+
+// BGImage型の定義
+type BGImage = {
+  name: string;
+  src: string;
+  url: string;
+};
 
 export default function CardView() {
   const { avatarUrl, backgroundImage, snsInfo, name, doubleName } =
@@ -94,6 +102,20 @@ export default function CardView() {
 
       const publicUrl = urlData.publicUrl;
 
+      // 新しい背景画像オブジェクトを作成
+      const newBgImage: BGImage = {
+        name: "アップロードされた画像",
+        src: publicUrl,
+        url: publicUrl,
+      };
+
+      // bgImageDataの先頭に新しい画像を追加
+      if (bgImageData[0].name === "アップロードされた画像") {
+        bgImageData.shift(); // 既存のアップロードされた画像を削除
+      }
+      bgImageData.unshift(newBgImage);
+      console.log(bgImageData);
+
       const { error: updateError } = await supabase
         .from("cards")
         .update({ avatar_url: publicUrl })
@@ -132,10 +154,13 @@ export default function CardView() {
         path === "/authed/preview" ? "border-none" : "",
       )}>
       {backgroundImage && (
-        <ExpoImage
-          source={backgroundImage}
-          className='absolute left-0 top-0 -z-20 h-full w-full'
-        />
+        <>
+          <ExpoImage
+            source={backgroundImage}
+            className='absolute left-0 top-0 -z-20 h-full w-full'
+          />
+          <View className='absolute left-0 top-0 -z-20 h-full w-full bg-white/50'></View>
+        </>
       )}
       <View className='mx-auto mt-4 flex h-full w-10/12 flex-col'>
         <Text className='mr-auto text-xl font-semibold'>

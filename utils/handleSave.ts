@@ -1,11 +1,12 @@
 import { Alert } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/utils/supabase";
-import { useCardInfoStore } from "@/utils/store";
+import { useCardInfoStore, useUserStateStore } from "@/utils/store";
 
 export const handleSave = async (session: any) => {
   const { name, doubleName, fontName, snsInfo, uniqueID, avatarUrl } =
     useCardInfoStore.getState();
+  const { missions } = useUserStateStore.getState();
 
   try {
     if (!session?.user?.id) {
@@ -59,6 +60,27 @@ export const handleSave = async (session: any) => {
     }
 
     console.log("保存されたカードデータ:", cardData);
+
+    const medalUpsertData = missions.map((mission) => ({
+      author_id: session.user.id,
+      medal_id: mission.title,
+      is_completed: mission.isCompleted,
+      updated_at: new Date().toISOString(),
+    }));
+
+    const { data: medalData, error: medalError } = await supabase
+      .from("medals")
+      .upsert(medalUpsertData, {
+        onConflict: "author_id,medal_id",
+      });
+
+    if (medalError) {
+      console.error("メダルデータの保存中にエラーが発生:", medalError);
+      throw medalError;
+    }
+
+    console.log("保存されたメダルデータ:", medalData);
+
     router.push("/authed/preview");
   } catch (error) {
     console.error("保存中にエラーが発生しました:", error);

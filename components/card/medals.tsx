@@ -2,41 +2,32 @@ import { View, Text, Pressable } from "react-native";
 import missiondata from "@/utils/data/missiondata";
 import ExpoImage from "@/components/expo-image";
 import { useUserStateStore } from "@/utils/store";
+import { Mission } from "@/utils/interface";
 
 export default function Medals() {
   const { missions } = useUserStateStore();
   const setMissions = useUserStateStore((state) => state.setMissions);
 
-  const handleIconAdd = (param: {
-    id: number;
-    source: string;
-    title: string;
-    description: string;
-    isCompleted: boolean;
-  }) => {
+  const handleIconAdd = (mission: Mission) => {
     const existingIndex = missions.findIndex(
-      (item) => item.source === param.source,
+      (item) => item.title === mission.title,
     );
 
-    if (existingIndex === -1) {
-      let updatedMissions = [
+    if (existingIndex === -1 && missions.length < 2) {
+      const updatedMissions = [
         ...missions,
         {
-          id: param.id,
-          source: param.source,
-          title: param.title,
-          description: param.description,
-          isCompleted: param.isCompleted,
+          ...mission,
+          isCompleted: true,
         },
       ];
-
-      // 配列の要素数が2を超える場合、最初の要素を削除
-      if (updatedMissions.length > 2) {
-        updatedMissions = updatedMissions.slice(1);
-      }
-
       setMissions(updatedMissions);
     }
+  };
+
+  const getMissionStatus = (missionTitle: string): boolean => {
+    const mission = missions.find((m) => m.title === missionTitle);
+    return mission ? mission.isCompleted : false;
   };
 
   return (
@@ -49,24 +40,27 @@ export default function Medals() {
               <View key={set} className='flex flex-row gap-x-3'>
                 {missiondata
                   .filter((item) => item.set === set)
-                  .map((mission) => (
-                    <Pressable
-                      key={mission.title}
-                      onPress={() => handleIconAdd(mission)}
-                      disabled={
-                        missions.some((m) => m.source === mission.source) ||
-                        mission.isCompleted === false
-                      }>
-                      <ExpoImage
-                        source={
-                          mission.isCompleted
-                            ? mission.source
-                            : require("@/assets/icons/mission/empty.png")
-                        }
-                        className={`h-12.5 w-12.5 ${missions.some((m) => m.source === mission.source) ? "opacity-50" : ""}`}
-                      />
-                    </Pressable>
-                  ))}
+                  .map((mission) => {
+                    const isCompleted = getMissionStatus(mission.title);
+                    const isSelected = missions.some(
+                      (m) => m.title === mission.title,
+                    );
+                    return (
+                      <Pressable
+                        key={mission.title}
+                        onPress={() => handleIconAdd(mission)}
+                        disabled={isSelected || !isCompleted}>
+                        <ExpoImage
+                          source={
+                            isCompleted
+                              ? mission.source
+                              : require("@/assets/icons/mission/empty.png")
+                          }
+                          className={`h-12.5 w-12.5 ${isSelected ? "opacity-50" : ""}`}
+                        />
+                      </Pressable>
+                    );
+                  })}
               </View>
             ))}
           </>
