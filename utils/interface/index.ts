@@ -68,6 +68,32 @@ interface AppState {
   setIsMounted: (isMounted: boolean) => void;
 }
 
+interface Card {
+  id: string;
+  author_id: string;
+  unique_id: string;
+  name: string;
+  double_name: string;
+  avatar_url: string | null;
+  background_url: string | null;
+  font_name: string;
+  created_at: string;
+  updated_at: string | null;
+}
+
+interface SNS {
+  id: string;
+  author_id: string | null;
+  user_id: string;
+  sns_id: string;
+  created_at: string;
+  updated_at: string | null;
+}
+
+interface StoredCard extends Card {
+  sns: SNS[];
+}
+
 export {
   CardInfo,
   MissionState,
@@ -75,4 +101,7 @@ export {
   CardPropaty,
   CardImageInfo,
   AppState,
+  StoredCard,
+  Card,
+  SNS,
 };

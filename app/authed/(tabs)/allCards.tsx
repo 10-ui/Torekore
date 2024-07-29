@@ -1,124 +1,77 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import React, { useState, useCallback } from "react";
+import { View, ScrollView, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { supabase } from "@/utils/supabase";
-import { Button } from "@/components/button";
-import { useActionSheet } from "@expo/react-native-action-sheet";
+import { useFocusEffect } from "@react-navigation/native";
+import AsyncedCard from "@/components/storage/asyncedCard";
+import { StoredCard } from "@/utils/interface";
+import bgImageData from "@/utils/data/bgimagedata";
 
-interface Card {
-  id: string;
-  name: string;
-  // 他の必要なカード情報のフィールドを追加
-}
+export default function AllCards(): JSX.Element {
+  const [storedCards, setStoredCards] = useState<StoredCard[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-export default function AllCards() {
-  const [cards, setCards] = useState<Card[]>([]);
-  const { showActionSheetWithOptions } = useActionSheet();
-  const [label, setLabel] = useState("レベルが高い順");
-
-  useEffect(() => {
-    fetchCards();
-  }, []);
-
-  const fetchCards = async () => {
+  const fetchStoredCards = useCallback(async (): Promise<void> => {
     try {
-      // スキャンされたカードIDを取得
-      const scannedCardIds = await AsyncStorage.getItem("scannedCardIds");
-      if (scannedCardIds) {
-        const cardIds = JSON.parse(scannedCardIds);
-
-        // カードIDを使用してSupabaseからカード情報を取得
-        const { data, error } = await supabase
-          .from("cards")
-          .select("id, name") // 必要なフィールドを選択
-          .in("id", cardIds);
-
-        if (error) throw error;
-
-        if (data) {
-          setCards(data);
-        }
+      setIsLoading(true);
+      const storedCardsJson = await AsyncStorage.getItem("scannedCards");
+      if (storedCardsJson) {
+        const cards: StoredCard[] = JSON.parse(storedCardsJson);
+        const processedCards = cards.map((card) => ({
+          ...card,
+          background_url:
+            bgImageData.find((bg) => bg.url === card.background_url)?.src ||
+            bgImageData[0].src,
+        }));
+        setStoredCards(processedCards);
+      } else {
+        setStoredCards([]);
       }
     } catch (error) {
-      console.error("Error fetching cards:", error);
+      console.error("カードの取得中にエラーが発生しました:", error);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  const renderCard = ({ item }: { item: Card }) => (
-    <View style={styles.card}>
-      <Text style={styles.cardName}>{item.name}</Text>
-      {/* 他のカード情報を表示 */}
-    </View>
+  useFocusEffect(
+    useCallback(() => {
+      fetchStoredCards();
+    }, [fetchStoredCards]),
   );
 
-  const handleSort = () => {
-    const options = ["レベルが高い順", "古い順", "新しい順", "キャンセル"];
-    const cancelButtonIndex = 3;
-
-    showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      (selectedIndex?: number) => {
-        switch (selectedIndex) {
-          case 0:
-            // レベルが高い順
-            setLabel("レベルが高い順");
-            break;
-
-          case 1:
-            // 古い順
-            setLabel("古い順");
-            break;
-
-          case 2:
-            // 新しい順
-            setLabel("新しい順");
-            break;
-
-          case cancelButtonIndex:
-          // Canceled
-        }
-      },
+  if (isLoading) {
+    return (
+      <View className='flex-1 items-center justify-center'>
+        <Text className='text-base'>読み込み中...</Text>
+      </View>
     );
-  };
+  }
+
+  // author_idでカードをグループ化
+  const groupedCards = storedCards.reduce(
+    (acc, card) => {
+      if (!acc[card.author_id]) {
+        acc[card.author_id] = [];
+      }
+      acc[card.author_id].push(card);
+      return acc;
+    },
+    {} as Record<string, StoredCard[]>,
+  );
 
   return (
-    <View style={styles.container}>
-      <Button
-        variant='outline'
-        className='ml-auto h-10 w-40'
-        label={label}
-        onPress={handleSort}
-      />
-      <FlatList
-        data={cards}
-        renderItem={renderCard}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+    <ScrollView className='flex-1'>
+      {Object.entries(groupedCards).length > 0 ? (
+        Object.entries(groupedCards).map(([authorId, cards]) => (
+          <View key={authorId} className='mb-5'>
+            <AsyncedCard cards={cards} />
+          </View>
+        ))
+      ) : (
+        <Text className='mt-5 text-center text-base'>
+          保存されたカードはありません。
+        </Text>
+      )}
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  card: {
-    backgroundColor: "white",
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 3,
-  },
-  cardName: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

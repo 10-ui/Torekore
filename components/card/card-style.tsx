@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Text, View, Pressable, Alert, ActivityIndicator } from "react-native";
+import {
+  Text,
+  View,
+  Pressable,
+  Alert,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
 import ExpoImage from "@/components/expo-image";
 import CardView from "@/components/card/card-view";
 import { Button } from "@/components/button";
@@ -36,14 +43,12 @@ export default function CardStyle() {
       Alert.alert("エラー", "ユーザーが認証されていません。");
       return;
     }
-
     setIsUploading(true);
 
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [16, 9],
         quality: 1,
       });
 
@@ -58,10 +63,39 @@ export default function CardStyle() {
 
       const uri = result.assets[0].uri;
 
+      // 画像の元のサイズを取得
+      const { width, height } = await ImageManipulator.manipulateAsync(
+        uri,
+        [],
+        { format: ImageManipulator.SaveFormat.JPEG },
+      );
+
+      // 16:9のアスペクト比を維持しつつ、元の画像に収まるようにクロップサイズを計算
+      let cropWidth = width;
+      let cropHeight = (width / 16) * 9;
+
+      if (cropHeight > height) {
+        cropHeight = height;
+        cropWidth = (height / 9) * 16;
+      }
+
+      const originX = (width - cropWidth) / 2;
+      const originY = (height - cropHeight) / 2;
+
+      // ImageManipulatorを使用して16:9にクロップ
       const manipulatedImage = await ImageManipulator.manipulateAsync(
         uri,
-        [{ resize: { width: 1600, height: 900 } }],
-        { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG },
+        [
+          {
+            crop: {
+              originX,
+              originY,
+              width: cropWidth,
+              height: cropHeight,
+            },
+          },
+        ],
+        { format: ImageManipulator.SaveFormat.JPEG },
       );
 
       const resizedUri = manipulatedImage.uri;
@@ -81,6 +115,7 @@ export default function CardStyle() {
         });
 
       if (error) {
+        console.error("Supabaseアップロードエラー:", error);
         throw error;
       }
 
@@ -96,12 +131,14 @@ export default function CardStyle() {
         .eq("author_id", session.user.id);
 
       if (upsertError) {
+        console.error("データベース更新エラー:", upsertError);
         throw upsertError;
       }
 
       setBackgroundImage(publicUrl);
       Alert.alert("成功", "背景画像が正常にアップロードされました。");
     } catch (error) {
+      console.error("エラーの詳細:", error);
       Alert.alert(
         "エラー",
         `背景画像のアップロードに失敗しました: ${error || "不明なエラー"}`,
@@ -148,42 +185,44 @@ export default function CardStyle() {
   return (
     <View className='w-full space-y-7'>
       <CardView />
-      <View className='mt-7 h-30 border border-input bg-white px-3 py-4'>
+      <View className='mt-7 border border-input bg-white px-3 py-4'>
         <Text className='mb-4'>背景</Text>
-        <View className='flex flex-row gap-2 overflow-scroll'>
-          {bgImageData.map((bgImage: BGImage) => (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View className='flex flex-row gap-2'>
             <Pressable
-              key={bgImage.name}
-              onPress={() => handleBackgroundSelect(bgImage)}>
-              <ExpoImage
-                source={bgImage.src}
-                className={docking(
-                  "h-14 w-23 border border-input",
-                  bgImage.url === backgroundImage
-                    ? "border-2 border-appBlue"
-                    : "border-input",
-                )}
-              />
+              onPress={onCropImage}
+              disabled={isUploading}
+              className='relative h-14 w-23 border border-input'>
+              {isUploading ? (
+                <ActivityIndicator
+                  size='small'
+                  color='#000000'
+                  style={{ position: "absolute", left: 30, top: 16 }}
+                />
+              ) : (
+                <ExpoImage
+                  source={require("@/assets/logos/camera.png")}
+                  className='absolute left-[30px] top-[16px] h-5 w-5'
+                />
+              )}
             </Pressable>
-          ))}
-          <Pressable
-            onPress={onCropImage}
-            disabled={isUploading}
-            className='relative h-14 w-23 border border-input'>
-            {isUploading ? (
-              <ActivityIndicator
-                size='small'
-                color='#000000'
-                style={{ position: "absolute", left: 30, top: 16 }}
-              />
-            ) : (
-              <ExpoImage
-                source={require("@/assets/logos/camera.png")}
-                className='absolute left-[30px] top-[16px] h-5 w-5'
-              />
-            )}
-          </Pressable>
-        </View>
+            {bgImageData.map((bgImage: BGImage) => (
+              <Pressable
+                key={bgImage.name}
+                onPress={() => handleBackgroundSelect(bgImage)}>
+                <ExpoImage
+                  source={bgImage.src}
+                  className={docking(
+                    "h-14 w-23 border border-input",
+                    bgImage.url === backgroundImage
+                      ? "border-2 border-appBlue"
+                      : "border-input",
+                  )}
+                />
+              </Pressable>
+            ))}
+          </View>
+        </ScrollView>
       </View>
       <View className='mt-6 flex flex-row items-start justify-between border border-input bg-white px-4 py-3'>
         <Text className='mr-7 text-base'>フォント</Text>
