@@ -212,12 +212,7 @@ export default function CardStyle() {
                 onPress={() => handleBackgroundSelect(bgImage)}>
                 <ExpoImage
                   source={bgImage.src}
-                  className={docking(
-                    "h-14 w-23 border border-input",
-                    bgImage.url === backgroundImage
-                      ? "border-2 border-appBlue"
-                      : "border-input",
-                  )}
+                  className={docking("h-14 w-23 border border-input")}
                 />
               </Pressable>
             ))}
