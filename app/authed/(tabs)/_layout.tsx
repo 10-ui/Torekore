@@ -88,7 +88,10 @@ export default function AuthedLayout() {
           setAllImageInfo({
             backgroundImage:
               bgImageData.find((bgImage) => bgImage.url === backgroundImage)
-                ?.src || bgImageData[0].src,
+                ?.src ||
+              (backgroundImage.startsWith("https://")
+                ? backgroundImage
+                : bgImageData[0].src),
             avatarUrl: avatar_url === "" ? "" : avatar_url,
           });
         } else {
