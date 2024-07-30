@@ -78,7 +78,7 @@ export default function AuthedLayout() {
             }),
           ];
 
-          const defaultBackgroundUrl = "bg_mayuka";
+          const defaultBackgroundUrl = "bg_blue";
           let backgroundImage = background_url || defaultBackgroundUrl;
 
           setAllCardInfo({
