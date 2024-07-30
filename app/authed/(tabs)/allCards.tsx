@@ -46,6 +46,11 @@ export default function AllCards(): JSX.Element {
     }, [fetchStoredCards]),
   );
 
+  const handleDelete = useCallback(() => {
+    AsyncStorage.removeItem("scannedCards");
+    setStoredCards([]);
+  }, []);
+
   const handleSort = useCallback(() => {
     const options: (SortOption | "キャンセル")[] = [
       "古い順",
@@ -112,10 +117,16 @@ export default function AllCards(): JSX.Element {
 
   return (
     <View className='flex-1 bg-appBG'>
-      <View className='p-4'>
+      <View className='flex-row justify-between p-4'>
         <Button
           variant='outline'
-          className='ml-auto h-10 w-40'
+          className='h-10 w-40'
+          label='ストレージデータを削除'
+          onPress={handleDelete}
+        />
+        <Button
+          variant='outline'
+          className='h-10 w-40'
           label={sortOption}
           onPress={handleSort}
         />
