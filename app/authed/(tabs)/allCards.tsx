@@ -140,7 +140,7 @@ export default function AllCards(): JSX.Element {
           ))
         ) : (
           <Text className='mt-5 w-full text-center text-base'>
-            保存されたカードはありません。
+            交換したカードがないよ🥺
           </Text>
         )}
       </ScrollView>
