@@ -124,6 +124,19 @@ export default function CardStyle() {
         .getPublicUrl(filePath);
 
       const publicUrl = urlData.publicUrl;
+      // 新しい背景画像オブジェクトを作成
+      const newBgImage: BGImage = {
+        name: "アップロードされた画像",
+        src: publicUrl,
+        url: publicUrl,
+      };
+
+      // bgImageDataの先頭に新しい画像を追加
+      if (bgImageData[0].name === "アップロードされた画像") {
+        bgImageData.shift(); // 既存のアップロードされた画像を削除
+      }
+      bgImageData.unshift(newBgImage);
+      console.log(bgImageData);
 
       const { error: upsertError } = await supabase
         .from("cards")

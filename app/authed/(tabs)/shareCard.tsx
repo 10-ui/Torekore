@@ -101,7 +101,7 @@ export default function ShareCard() {
     const updatedMissions = missions.map((mission) =>
       mission.title === missionTitle
         ? { ...mission, isCompleted: true }
-        : mission
+        : mission,
     );
     setMissions(updatedMissions);
 
@@ -111,7 +111,7 @@ export default function ShareCard() {
         is_completed: true,
         author_id: session?.user.id,
       },
-      { onConflict: "medal_id, author_id" }
+      { onConflict: "medal_id, author_id" },
     );
 
     if (missionError) {
@@ -120,7 +120,7 @@ export default function ShareCard() {
 
     Alert.alert(
       "成功",
-      "カードが正常にスキャンされ、「はじまりの証」ミッションが完了しました。"
+      "カードが正常にスキャンされ、「はじまりの証」ミッションが完了しました。",
     );
   };
 
