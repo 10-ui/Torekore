@@ -8,6 +8,7 @@ import {
   AppState,
 } from "@/utils/interface";
 import { Session } from "@supabase/supabase-js";
+import missiondata from "@/utils/data/missiondata";
 
 const useAppStateStore = create<AppState>()((set) => ({
   session: null,
@@ -47,16 +48,15 @@ const useCardInfoStore = create<CardInfo>()((set) => ({
 }));
 
 const useUserStateStore = create<MissionState>()((set) => ({
-  missions: Array(2).fill({
-    source: require("@/assets/icons/mission/empty.png"),
-    title: "",
-    description: "",
+  missions: missiondata.map((mission) => ({
+    ...mission,
     isCompleted: false,
-  }),
+  })),
   setIsCompleted: (missionID: number, isCompleted: boolean) =>
     set((state) => {
-      const updatedMissions = [...state.missions];
-      updatedMissions[missionID].isCompleted = isCompleted;
+      const updatedMissions = state.missions.map((mission) =>
+        mission.id === missionID ? { ...mission, isCompleted } : mission,
+      );
       return { missions: updatedMissions };
     }),
   setMissions: (missions: Mission[]) => set({ missions }),

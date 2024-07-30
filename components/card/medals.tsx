@@ -9,6 +9,7 @@ export default function Medals() {
   const setMissions = useUserStateStore((state) => state.setMissions);
 
   const handleIconAdd = (mission: Mission) => {
+    console.log("++", mission);
     const existingIndex = missions.findIndex(
       (item) => item.title === mission.title,
     );
@@ -35,35 +36,34 @@ export default function Medals() {
       <View className='flex flex-row items-start justify-start gap-9'>
         <Text className='text-base'>勲章</Text>
         <View className='flex flex-col gap-y-8'>
-          <>
-            {["top", "bottom"].map((set) => (
-              <View key={set} className='flex flex-row gap-x-3'>
-                {missiondata
-                  .filter((item) => item.set === set)
-                  .map((mission) => {
-                    const isCompleted = getMissionStatus(mission.title);
-                    const isSelected = missions.some(
-                      (m) => m.title === mission.title,
-                    );
-                    return (
-                      <Pressable
-                        key={mission.title}
-                        onPress={() => handleIconAdd(mission)}
-                        disabled={isSelected || !isCompleted}>
-                        <ExpoImage
-                          source={
-                            isCompleted
-                              ? mission.source
-                              : require("@/assets/icons/mission/empty.png")
-                          }
-                          className={`h-12.5 w-12.5 ${isSelected ? "opacity-50" : ""}`}
-                        />
-                      </Pressable>
-                    );
-                  })}
-              </View>
-            ))}
-          </>
+          {["top", "bottom"].map((set) => (
+            <View key={set} className='flex flex-row gap-x-3'>
+              {missiondata
+                .filter((item) => item.set === set)
+                .map((mission) => {
+                  const isCompleted = getMissionStatus(mission.title);
+                  const isSelected = missions.some(
+                    (m) => m.title === mission.title,
+                  );
+                  return (
+                    <Pressable
+                      key={mission.title}
+                      onPress={() => handleIconAdd(mission)}
+                      // disabled={isSelected || !isCompleted}>
+                    >
+                      <ExpoImage
+                        source={
+                          isCompleted
+                            ? mission.source
+                            : require("@/assets/icons/mission/empty.png")
+                        }
+                        className={`h-12.5 w-12.5 ${isSelected ? "opacity-50" : ""}`}
+                      />
+                    </Pressable>
+                  );
+                })}
+            </View>
+          ))}
         </View>
       </View>
     </View>

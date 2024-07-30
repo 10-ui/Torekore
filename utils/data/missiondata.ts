@@ -4,7 +4,7 @@ const missiondata = [
     source: require("@/assets/icons/mission/firstchange.png"),
     title: "はじまりの証",
     description: "カード交換をしてみよう",
-    isCompleted: true,
+    isCompleted: false,
     set: "top",
   },
   {
@@ -20,7 +20,7 @@ const missiondata = [
     source: require("@/assets/icons/mission/10friend.png"),
     title: "社交ビギナー",
     description: "10人とカード交換してみよう",
-    isCompleted: true,
+    isCompleted: false,
     set: "top",
   },
   {
@@ -28,7 +28,7 @@ const missiondata = [
     title: "グローバル！",
     source: require("@/assets/icons/mission/global.png"),
     description: "国籍の異なる人とカードを交換しよう",
-    isCompleted: true,
+    isCompleted: false,
     set: "top",
   },
   {
@@ -36,7 +36,7 @@ const missiondata = [
     title: "これ",
     source: require("@/assets/icons/mission/care.png"),
     description: "まだ考えていま〜す",
-    isCompleted: true,
+    isCompleted: false,
     set: "bottom",
   },
 ];
