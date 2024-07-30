@@ -40,10 +40,13 @@ export default function AsyncedCard({ cards }: AsyncedCardProps): JSX.Element {
           }}
           onPress={() => setExpandedIndex(index)}>
           {card.background_url && (
-            <ExpoImage
-              source={card.background_url}
-              className='absolute left-0 top-0 h-full w-full'
-            />
+            <>
+              <ExpoImage
+                source={card.background_url}
+                className='absolute left-0 top-0 -z-20 h-full w-full'
+              />
+              <View className='absolute left-0 top-0 -z-20 h-full w-full bg-white/50'></View>
+            </>
           )}
           <View className='mx-auto mt-4 flex h-full w-10/12 flex-col'>
             <Text className='mr-auto text-xl font-semibold'>

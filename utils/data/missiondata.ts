@@ -33,9 +33,9 @@ const missiondata = [
   },
   {
     id: 5,
-    title: "これ",
+    title: "ファストコレクト",
     source: require("@/assets/icons/mission/care.png"),
-    description: "まだ考えていま〜す",
+    description: "カードを保存してみよう",
     isCompleted: false,
     set: "bottom",
   },
