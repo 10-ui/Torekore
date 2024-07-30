@@ -18,14 +18,6 @@ import { useAuth } from "@/providers/supabaseAuth";
 import { nanoid } from "nanoid";
 import * as FileSystem from "expo-file-system";
 import * as ImageManipulator from "expo-image-manipulator";
-import bgImageData from "@/utils/data/bgimagedata";
-
-// BGImage型の定義
-type BGImage = {
-  name: string;
-  src: string;
-  url: string;
-};
 
 export default function CardView() {
   const { avatarUrl, backgroundImage, snsInfo, name, doubleName } =
